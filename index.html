@@ -41,6 +41,7 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 .start-screen[hidden],#siteContent[hidden]{display:none!important}
 @media(max-width:600px){.start-options{grid-template-columns:1fr}.start-option{min-height:120px}}
 /* תשלום בביט וניהול הזמנות */
+.pw-wrap{position:relative;display:block}.pw-wrap input{padding-left:46px!important}.pw-eye{position:absolute;left:6px;top:50%;transform:translateY(-50%);border:0;background:none;font-size:20px;cursor:pointer;padding:6px;line-height:1}
 .pay-opt{background:#fff;border:1px solid #cfe8d4;border-radius:12px;padding:10px 14px;margin:8px 0}.pay-opt p{margin:6px 0}.bit-box{background:#eaf7ec;border-radius:16px;padding:18px;line-height:1.8}.bit-box h3{margin:0 0 8px}.bit-box ol{margin:8px 0;padding-inline-start:22px}.bit-box[hidden],#adminScreen[hidden],#orderForm[hidden]{display:none!important}
 .order{border:2px solid #e8dfd2;border-radius:14px;padding:14px;margin:10px 0;background:#fff}.order.pending{border-color:#ffc34b;background:#fffaf0}.order.cancelled{opacity:.7}
 .order-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:900}.badge{border-radius:20px;padding:3px 10px;font-size:13px;font-weight:800}.badge.pending{background:#fff0c7}.badge.paid{background:#d9f0dd}.badge.cancelled{background:#f3e3e3}
@@ -96,8 +97,8 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 <section class="section" id="how"><div class="head"><h2>איך זה עובד?</h2><p>משחק אחד רציף — שלב אחרי שלב, בלי להפעיל מחדש.</p></div><div class="info" style="margin-bottom:18px"><h3>⏱️ כמה זמן נמשכת התוכנית?</h3><p>משך המשחק משתנה לפי מספר המשתתפים. שלב „מה זה מזכיר לכם?” קצבי במיוחד: 40 שניות לכל סבב. שלושת השלבים רצים ברצף.</p></div><div class="info-grid"><article class="info"><h3>1. רוכשים את המשחק</h3><p>בוחרים את מספר המשתתפים ואת תאריך המשחק, ומשלמים בביט.</p></article><article class="info"><h3>2. מקבלים פרטי כניסה</h3><p>אחרי שהתשלום מתקבל, נשלחים למנהל המשחק אימייל וסיסמה אישיים. המשחק פתוח בתאריך שנבחר — כל היום.</p></article><article class="info"><h3>3. פותחים ומשחקים</h3><p>מנהל המשחק נכנס לאתר, פותח אירוע ומציג לכל קבוצה קוד הצטרפות. כל קבוצה משחקת ממכשיר אחד — טלפון או מחשב.</p></article></div></section>
 <section class="section" id="what"><div class="head"><h2>מה מקבלים?</h2></div><div class="info-grid"><article class="info"><h3>👀 זיהוי עיניים</h3><p>מצטלמים עם שם מלא, וכל קבוצה מקבלת 5 תמונות עיניים של בני משפחה מקבוצות אחרות. נגד השעון כותבים של מי העיניים — כל תשובה נכונה = נקודה.</p></article><article class="info"><h3>💭 מה זה מזכיר לכם?</h3><p>10 סבבים של אות, מספר או ציור — 40 שניות לכל סבב, כותבים בטלפון כמה שיותר. כל תשובה תקינה = נקודה.</p></article><article class="info"><h3>💛 חידון משפחתי</h3><p>הקבוצות מכניסות שאלות על סבא, סבתא וראש המשפחה, המערכת בוחרת — וסבא או סבתא קובעים מי צדק.</p></article></div></section>
 <section class="section" id="who"><div class="head"><h2>למי זה מתאים?</h2><p>לגיבוש משפחתי בכל אירוע או חג.</p></div><div class="info"><p>מתאים לגיבוש משפחתי בחגים, בימי חול ובאירועים משפחתיים — לילדים, הורים, סבים וסבתות. כל קבוצה משחקת ממכשיר אחד — טלפון או מחשב.</p></div></section>
-<section class="section" id="faq"><div class="head"><h2>שאלות נפוצות</h2></div><details><summary>צריך להתכונן מראש?</summary><p><strong>לא!</strong> לא מכינים שאלות, לא אוספים תמונות ולא מארגנים חומרים. מגיעים לאירוע ופותחים את המשחק.</p></details><details><summary>כולם צריכים טלפון?</summary><p>לא. מספיק מכשיר אחד לכל קבוצה — טלפון או מחשב. רק מכשיר אחד לכל קבוצה.</p></details><details><summary>איך משלמים ומקבלים גישה?</summary><p>אחרי שליחת ההזמנה מופיעות הוראות לתשלום בביט. אחרי שהתשלום מתקבל, נשלחים אליכם אימייל וסיסמה לכניסת מנהל המשחק.</p></details><details><summary>מתי אפשר לשחק?</summary><p>המשחק פתוח רק בתאריך שבחרתם ברכישה — כל היום, מ־00:00 עד 23:59. לפני התאריך ואחריו אי־אפשר להיכנס למשחק.</p></details></section>
-<section class="section" id="purchase"><div class="head"><h2>רכישת המשחק</h2><p>בחרו את מספר המשתתפים ואת תאריך המשחק. המערכת מחשבת אוטומטית את מספר הקבוצות, עד 5 משתתפים בכל קבוצה.</p></div><p class="smallnote">מחיר משפחתי נגיש, עם תקרה של 500 ₪ למשחק.</p>
+<section class="section" id="faq"><div class="head"><h2>שאלות נפוצות</h2></div><details><summary>צריך להתכונן מראש?</summary><p><strong>לא!</strong> לא מכינים שאלות, לא אוספים תמונות ולא מארגנים חומרים. מגיעים לאירוע ופותחים את המשחק.</p></details><details><summary>כולם צריכים טלפון?</summary><p>לא. מספיק מכשיר אחד לכל קבוצה — טלפון או מחשב. רק מכשיר אחד לכל קבוצה.</p></details><details><summary>איך משלמים ומקבלים גישה?</summary><p>אחרי שליחת ההזמנה מופיעות הוראות לתשלום בביט. אחרי שהתשלום מתקבל, נשלחים אליכם אימייל וסיסמה לכניסת מנהל המשחק.</p></details><details><summary>מתי אפשר לשחק?</summary><p>המשחק פתוח רק בתאריך שבחרתם ברכישה — מ־6:00 בבוקר עד 12 בלילה. לפני התאריך ואחריו אי־אפשר להיכנס למשחק.</p></details></section>
+<section class="section" id="purchase"><div class="head"><h2>רכישת המשחק</h2><p>בחרו את מספר המשתתפים ואת תאריך המשחק. המערכת מחשבת אוטומטית את מספר הקבוצות — 4 בכל קבוצה (מומלץ) או 5.</p></div><p class="smallnote">מחיר משפחתי נגיש, עם תקרה של 500 ₪ למשחק.</p>
 <div class="price-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin:18px 0">
 <div class="info" style="text-align:center;background:#fff0e7"><strong>15–20 משתתפים</strong><h3>300 ₪ סה״כ</h3></div>
 <div class="info" style="text-align:center;background:#fff1c9"><strong>21–29 משתתפים</strong><h3>300 ₪ + 10 ₪ לכל משתתף מעל 20</h3></div>
@@ -105,12 +106,13 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 <div class="info" style="text-align:center;background:#dceefa"><strong>39 משתתפים ומעלה</strong><h3>500 ₪ סה״כ</h3></div>
 </div><div class="info"><form class="fields" id="orderForm" onsubmit="event.preventDefault();submitOrder()">
 <label for="people"><strong>מספר המשתתפים</strong></label><input id="people" type="number" min="15" step="1" value="50" required oninput="updateGroups()">
-<label for="groupCount"><strong>מספר הקבוצות (מחושב אוטומטית)</strong></label><input id="groupCount" type="number" min="3" max="100" step="1" value="10" readonly aria-readonly="true">
-<div class="purchase-summary" id="groupSummary">50 משתתפים · 10 קבוצות</div>
+<label for="groupSize"><strong>כמה משתתפים בכל קבוצה?</strong></label><select id="groupSize" onchange="updateGroups()" style="font:inherit;padding:13px;border:1px solid #ddd2c0;border-radius:10px"><option value="4" selected>4 בכל קבוצה (מומלץ)</option><option value="5">5 בכל קבוצה</option></select>
+<div class="purchase-summary" id="groupSummary">50 משתתפים · 13 קבוצות</div>
+<div class="purchase-summary" id="phoneSummary" style="background:#dceefa">📱 חובה טלפון אחד לכל קבוצה</div>
 <div class="purchase-summary" id="totalSummary">עלות כוללת: 500 ₪</div>
-<p class="smallnote">חשוב לדעת: מינימום 15 משתתפים. בכל קבוצה עד 5 משתתפים, ולכן 30 משתתפים יוצרים 6 קבוצות. לכל קבוצה דרוש מכשיר אחד — טלפון או מחשב.</p>
+<p class="smallnote">חשוב לדעת: מינימום 15 משתתפים ולפחות 3 קבוצות. מומלץ 4 בכל קבוצה (למשל 16 משתתפים = 4 קבוצות של 4), ואפשר לבחור גם 5. <strong>לכל קבוצה חובה טלפון אחד</strong> (או מחשב).</p>
 <label for="gameDate"><strong>תאריך המשחק</strong></label><input id="gameDate" type="date" required oninput="this.setCustomValidity('')">
-<p class="smallnote">המשחק יהיה פתוח רק בתאריך הזה — כל היום, מ־00:00 עד 23:59.</p>
+<p class="smallnote">המשחק יהיה פתוח רק בתאריך הזה — מ־6:00 בבוקר עד 12 בלילה.</p>
 <label for="buyer"><strong>שם הרוכש/ת</strong></label><input id="buyer" placeholder="שם מלא" required maxlength="60" autocomplete="name">
 <label for="phone"><strong>טלפון נייד</strong></label><input id="phone" type="tel" inputmode="tel" placeholder="050-1234567" required autocomplete="tel" oninput="this.setCustomValidity('')">
 <label for="email"><strong>כתובת אימייל לקבלת פרטי הכניסה</strong></label><input id="email" type="email" placeholder="name@example.com" required maxlength="100" autocomplete="email">
@@ -207,13 +209,15 @@ function getTotalPrice(n){
  if(n<=38)return n*13;
  return 500;
 }
-function getGroupSizes(n, requestedGroups){
+// מספר הקבוצות לפי גודל הקבוצה שנבחר (4 מומלץ, או 5) — ולפחות 3 קבוצות, כדי שמשחק העיניים יעבוד
+function groupCountFor(n,size){return Math.max(3,Math.ceil(n/(size||4)))}
+function getGroupSizes(n,size){
  if(n<1)return [];
- const minGroups=Math.ceil(n/5);
- const groups=minGroups;
+ const groups=groupCountFor(n,size);
  const base=Math.floor(n/groups), rem=n%groups;
  return Array.from({length:groups},(_,i)=>base+(i<rem?1:0));
 }
+function selectedGroupSize(){return Number(document.getElementById('groupSize').value)===5?5:4}
 // "3 קבוצות של 5 וקבוצה אחת של 4" / "קבוצה אחת של 5 ו־3 קבוצות של 4" — בלי "1 קבוצות"
 function describeGroupSizes(sizes){
  const counts={};sizes.forEach(v=>counts[v]=(counts[v]||0)+1);
@@ -223,17 +227,12 @@ function describeGroupSizes(sizes){
 function updateGroups(){
  const people=document.getElementById('people');
  const typed=parseInt(people.value)||0;
- if(typed<15){document.getElementById('groupSummary').textContent='מינימום 15 משתתפים';document.getElementById('totalSummary').textContent='עלות כוללת: 300 ₪ (מחיר מינימום ל־15–20 משתתפים)';return;}
+ if(typed<15){document.getElementById('groupSummary').textContent='מינימום 15 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה';document.getElementById('totalSummary').textContent='עלות כוללת: 300 ₪ (מחיר מינימום ל־15–20 משתתפים)';return;}
  const n=typed;
- const groupInput=document.getElementById('groupCount');
- const minGroups=Math.ceil(n/5);
- groupInput.min=minGroups;
- groupInput.max=n;
- let groups=minGroups;
- groupInput.value=groups;
- const sizes=getGroupSizes(n,groups);
+ const sizes=getGroupSizes(n,selectedGroupSize());
  const summary=describeGroupSizes(sizes);
  document.getElementById('groupSummary').textContent=n+' משתתפים · '+sizes.length+' קבוצות: '+summary;
+ document.getElementById('phoneSummary').textContent=`📱 חובה טלפון אחד לכל קבוצה — צריך ${sizes.length} טלפונים (או מחשבים)`;
  const total=getTotalPrice(n),final=finalPrice(n,couponPercent);
  document.getElementById('totalSummary').textContent=couponPercent?`עלות כוללת: ${final.toLocaleString('he-IL')} ₪ (במקום ${total.toLocaleString('he-IL')} ₪ — ${couponPercent}% הנחה)`:'עלות כוללת: '+total.toLocaleString('he-IL')+' ₪';
 }
@@ -242,11 +241,13 @@ function openGameAccess(mode){
  document.getElementById('gameAccessModal').classList.add('open');
  renderManagerLogin();
 }
+// העין שליד הסיסמה: מראה / מסתירה את מה שהוקלד
+function togglePw(id,btn){const i=document.getElementById(id),show=i.type==='password';i.type=show?'text':'password';btn.textContent=show?'🙈':'👁️';btn.setAttribute('aria-label',show?'הסתרת הסיסמה':'הצגת הסיסמה');btn.title=btn.getAttribute('aria-label');}
 function closeGameAccess(){document.getElementById('gameAccessModal').classList.remove('open')}
 function renderManagerLogin(){
  document.getElementById('gameAccessTitle').textContent='כניסת מנהל המשחק';
  document.getElementById('gameAccessIntro').textContent='היכנסו עם כתובת האימייל והסיסמה שהוגדרו למנהל המשחק.';
- document.getElementById('gameAccessContent').innerHTML=`<form class="game-form" onsubmit="event.preventDefault();if(window.firebaseManagerLogin)window.firebaseManagerLogin();else document.getElementById('firebaseLoginMsg').textContent='המערכת עדיין נטענת — נסו שוב בעוד רגע.'"><label>כתובת אימייל<input id="managerUser" type="email" autocomplete="username" required placeholder="name@example.com"></label><label>סיסמה<input id="managerPass" type="password" autocomplete="current-password" required placeholder="סיסמה"></label><button class="buy" type="submit" id="managerLoginButton">כניסה</button><p id="firebaseLoginMsg" class="smallnote" role="status"></p><button class="game-btn" type="button" onclick="window.firebaseResetPassword&&window.firebaseResetPassword()">שכחתי סיסמה</button><button class="game-btn" type="button" onclick="openGameAccess('join')">אני משתתף/ת בקבוצה — יש לי קוד משחק</button></form>`;
+ document.getElementById('gameAccessContent').innerHTML=`<form class="game-form" onsubmit="event.preventDefault();if(window.firebaseManagerLogin)window.firebaseManagerLogin();else document.getElementById('firebaseLoginMsg').textContent='המערכת עדיין נטענת — נסו שוב בעוד רגע.'"><label>כתובת אימייל<input id="managerUser" type="email" autocomplete="username" required placeholder="name@example.com"></label><label>סיסמה<span class="pw-wrap"><input id="managerPass" type="password" autocomplete="current-password" required placeholder="סיסמה"><button type="button" class="pw-eye" onclick="togglePw('managerPass',this)" aria-label="הצגת הסיסמה" title="הצגת הסיסמה">👁️</button></span></label><button class="buy" type="submit" id="managerLoginButton">כניסה</button><p id="firebaseLoginMsg" class="smallnote" role="status"></p><button class="game-btn" type="button" onclick="window.firebaseResetPassword&&window.firebaseResetPassword()">שכחתי סיסמה</button><button class="game-btn" type="button" onclick="openGameAccess('join')">אני משתתף/ת בקבוצה — יש לי קוד משחק</button></form>`;
 }
 // ---------- שלב 1: חלוקת העיניים ----------
 const EYES_PER_GROUP=5;
@@ -344,13 +345,14 @@ function openManualCrop(img,onDone,onCancel){
  box.querySelector('[data-cancel]').onclick=onCancel;
 }
 function escapeGameText(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-// ---- תאריכים לפי שעון ישראל: המשחק פתוח מ־00:00 עד 23:59 ביום שנבחר ----
+// ---- תאריכים לפי שעון ישראל: המשחק פתוח מ־6:00 בבוקר עד 12 בלילה ביום שנבחר ----
+const GAME_OPEN_HOUR=6;
 function israelToday(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jerusalem'}).format(new Date())}
 function israelOffsetMs(date){
  try{const name=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Jerusalem',timeZoneName:'shortOffset'}).formatToParts(date).find(p=>p.type==='timeZoneName').value;const m=name.match(/GMT([+-]\d+)/);if(m)return parseInt(m[1])*3600000;}catch(e){}
  return 2*3600000;
 }
-function israelDayStart(dateStr){const [y,mo,d]=dateStr.split('-').map(Number);const utc=Date.UTC(y,mo-1,d);let t=utc-israelOffsetMs(new Date(utc));t=utc-israelOffsetMs(new Date(t));return new Date(t)}
+function israelDayStart(dateStr,hour){const [y,mo,d]=dateStr.split('-').map(Number);const utc=Date.UTC(y,mo-1,d,hour||0);let t=utc-israelOffsetMs(new Date(utc));t=utc-israelOffsetMs(new Date(t));return new Date(t)}
 function israelDayEnd(dateStr){const [y,mo,d]=dateStr.split('-').map(Number);const next=new Date(Date.UTC(y,mo-1,d+1)).toISOString().slice(0,10);return new Date(israelDayStart(next).getTime()-1)}
 function formatDateHe(dateStr){if(!dateStr)return '';const [y,mo,d]=dateStr.split('-');return Number(d)+'/'+Number(mo)+'/'+y}
 function formatPhone(p){return p&&p.length===10?p.slice(0,3)+'-'+p.slice(3):(p||'')}
@@ -368,7 +370,7 @@ async function submitOrder(){
  if(!/^0\d{8,9}$/.test(phone)){phoneEl.setCustomValidity('מספר הטלפון לא תקין. לדוגמה: 050-1234567');phoneEl.reportValidity();return;}
  const name=document.getElementById('buyer').value.trim(),email=document.getElementById('email').value.trim().toLowerCase();
  if(!window.firebaseSubmitOrder){msg.textContent='המערכת עדיין נטענת — נסו שוב בעוד רגע.';return;}
- const order={buyerName:name,email,phone,participants:n,gameDate:dateEl.value,total:finalPrice(n,couponPercent)};
+ const order={buyerName:name,email,phone,participants:n,groupSize:selectedGroupSize(),gameDate:dateEl.value,total:finalPrice(n,couponPercent)};
  if(couponPercent)order.coupon=normCoupon(document.getElementById('coupon').value);
  if(!pendingOrder){const n=new Uint32Array(1);crypto.getRandomValues(n);pendingOrder={id:'o'+Date.now().toString(36)+Math.random().toString(36).slice(2,8),code:String(100000+n[0]%900000),tried:false};}
  btn.disabled=true;msg.textContent='שולחים את ההזמנה…';
@@ -384,7 +386,7 @@ function showBitInstructions(order,result){
  const linkPart=result.bitLink?`<div class="pay-opt"><strong>${phone?'אפשרות 1 — ':''}בקישור (פייבוקס)</strong><p><a class="buy" href="${escapeGameText(result.bitLink)}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;font-size:20px">💳 לתשלום — ${t} ₪</a></p></div>`:'';
  const phonePart=phone?`<div class="pay-opt"><strong>${result.bitLink?'אפשרות 2 — ':''}בביט</strong><p>פותחים את אפליקציית ביט ומעבירים <strong>${t} ₪</strong> למספר ${phone}</p></div>`:'';
  const steps=(linkPart||phonePart)?linkPart+phonePart+note:`<p>פרטי התשלום יישלחו אליכם בהקדם.</p>${note}`;
- box.innerHTML=`<h3>✅ ההזמנה נקלטה! מספר הזמנה: ${result.code}</h3><p>נשאר רק לשלם <strong>${t} ₪</strong>:</p>${steps}${result.emailed?'<p>📧 שלחנו לכם מייל עם פרטי ההזמנה והתשלום.</p>':''}<p>אחרי שנקבל את התשלום, נשלח שם משתמש וסיסמה לאימייל <strong dir="ltr">${escapeGameText(order.email)}</strong>.<br>המשחק יהיה פתוח ביום <strong>${formatDateHe(order.gameDate)}</strong> בלבד, מ־00:00 עד 23:59.</p><button type="button" class="game-btn" onclick="newOrder()">הזמנה נוספת</button>`;
+ box.innerHTML=`<h3>✅ ההזמנה נקלטה! מספר הזמנה: ${result.code}</h3><p>נשאר רק לשלם <strong>${t} ₪</strong>:</p>${steps}${result.emailed?'<p>📧 שלחנו לכם מייל עם פרטי ההזמנה והתשלום.</p>':''}<p>אחרי שנקבל את התשלום, נשלח שם משתמש וסיסמה לאימייל <strong dir="ltr">${escapeGameText(order.email)}</strong>.<br>המשחק יהיה פתוח ביום <strong>${formatDateHe(order.gameDate)}</strong> בלבד, מ־6:00 בבוקר עד 12 בלילה.</p><button type="button" class="game-btn" onclick="newOrder()">הזמנה נוספת</button>`;
  document.getElementById('orderForm').hidden=true;box.hidden=false;box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function newOrder(){const f=document.getElementById('orderForm');f.reset();pendingOrder=null;couponPercent=0;document.getElementById('couponMsg').textContent='';f.hidden=false;document.getElementById('bitBox').hidden=true;document.getElementById('orderButton').disabled=false;updateGroups();}
@@ -445,7 +447,7 @@ window.firebaseSubmitOrder = async function (order, pending) {
   let emailed = false;
   try {
     emailed = await sendEmail(order.email, `ההזמנה שלך למשחק המשפחה נקלטה (הזמנה ${code})`,
-      `שלום ${order.buyerName},\n\nההזמנה שלך נקלטה — תודה! 🎉\n\nמספר הזמנה: ${code}\nמספר משתתפים: ${order.participants}\nתאריך המשחק: ${date}\nלתשלום: ${total} ₪\n\nאיך משלמים:\n${payLine}\nבהערה לתשלום כותבים: הזמנה ${code}\n\nאחרי שנקבל את התשלום, נשלח לך למייל הזה שם משתמש וסיסמה.\nהמשחק יהיה פתוח ביום ${date} בלבד, מ־00:00 עד 23:59.\n\nמשחק המשפחה`);
+      `שלום ${order.buyerName},\n\nההזמנה שלך נקלטה — תודה! 🎉\n\nמספר הזמנה: ${code}\nמספר משתתפים: ${order.participants}\nתאריך המשחק: ${date}\nלתשלום: ${total} ₪\n\nאיך משלמים:\n${payLine}\nבהערה לתשלום כותבים: הזמנה ${code}\n\nאחרי שנקבל את התשלום, נשלח לך למייל הזה שם משתמש וסיסמה.\nהמשחק יהיה פתוח ביום ${date} בלבד, מ־6:00 בבוקר עד 12 בלילה.\n\nמשחק המשפחה`);
     const cfg = await getEmailCfg();
     if (cfg.adminEmail) await sendEmail(cfg.adminEmail, `הזמנה חדשה ${code} — ${order.buyerName}`,
       `התקבלה הזמנה חדשה באתר:\n\nמספר הזמנה: ${code}\nשם: ${order.buyerName}\nטלפון: ${formatPhone(order.phone)}\nאימייל: ${order.email}\nמשתתפים: ${order.participants}\nתאריך המשחק: ${date}\nלתשלום: ${total} ₪\n\nכשהתשלום מגיע לביט — נכנסים לאזור הניהול ולוחצים „התשלום התקבל”:\n${SITE_URL}#admin`);
@@ -501,22 +503,23 @@ function renderManagerGame(game) {
   clearTimeout(expiryTimer);
   const participants = Number(game.purchasedParticipants);
   const savedMaxGroups = Number(game.maxGroups);
-  const maxGroups = Number.isInteger(savedMaxGroups) && savedMaxGroups > 0 ? savedMaxGroups : Math.ceil(participants / 5);
+  const groupSize = game.groupSize === 5 ? 5 : 4;
+  const maxGroups = Number.isInteger(savedMaxGroups) && savedMaxGroups > 0 ? savedMaxGroups : groupCountFor(participants, groupSize);
   const date = formatDateHe(game.gameDate);
-  const purchase = `רכשת ${participants} משתתפים — נא להתחלק ל־${maxGroups} קבוצות, עד 5 משתתפים בקבוצה.`;
+  const purchase = `רכשת ${participants} משתתפים — נא להתחלק ל־${maxGroups} קבוצות (${describeGroupSizes(getGroupSizes(participants, groupSize))}). 📱 חובה טלפון אחד לכל קבוצה.`;
   const logout = `<button class="game-btn" type="button" onclick="window.firebaseManagerLogout()">יציאה מהחשבון</button>`;
   const title = document.getElementById('gameAccessTitle'), intro = document.getElementById('gameAccessIntro'), box = document.getElementById('gameAccessContent');
   const state = gameWindow(game);
   if (state === 'open') {
     title.textContent = 'המשחק שלך פתוח היום! 🎉';
-    intro.textContent = `המשחק פתוח היום (${date}) עד 23:59.`;
+    intro.textContent = `המשחק פתוח היום (${date}) עד 12 בלילה.`;
     currentManagerGame = game;
     box.innerHTML = `<div class="game-status"><strong>${purchase}</strong></div><button class="buy" type="button" onclick="window.openManagerPlay()">▶ פתיחת המשחק</button> ${logout}`;
     const left = game.accessUntil.toMillis() - Date.now() + 1000;
     if (left < 2147483647) expiryTimer = setTimeout(() => renderManagerGame(game), left);
   } else if (state === 'before') {
     title.textContent = 'המשחק שלך עוד לא נפתח';
-    intro.textContent = `המשחק שלך נקבע ליום ${date}. הכניסה למשחק תיפתח באותו יום בשעה 00:00 ותהיה פתוחה עד 23:59.`;
+    intro.textContent = `המשחק שלך נקבע ליום ${date}. הכניסה למשחק תיפתח באותו יום בשעה 6:00 בבוקר ותהיה פתוחה עד 12 בלילה.`;
     box.innerHTML = `<div class="game-status">${purchase}</div>${logout}`;
   } else if (state === 'after') {
     title.textContent = 'תוקף המשחק הסתיים';
@@ -547,7 +550,8 @@ window.firebaseResetPassword = async function () {
 
 window.firebaseManagerLogin = async function () {
   const email = document.getElementById('managerUser')?.value.trim();
-  const password = document.getElementById('managerPass')?.value;
+  // trim — כשמעתיקים סיסמה מהמייל נכנס לפעמים רווח בסוף
+  const password = document.getElementById('managerPass')?.value.trim();
   const msg = document.getElementById('firebaseLoginMsg');
   const button = document.getElementById('managerLoginButton');
   if (!email || !password || !msg) return;
@@ -591,7 +595,7 @@ function makePassword() {
 window.renderAdmin = async function () {
   const user = auth.currentUser || await authReady;
   if (user) return showAdminPanel(user);
-  adminBox().innerHTML = `<div class="info"><form class="game-form" onsubmit="event.preventDefault();window.firebaseAdminLogin()"><label>אימייל<input id="adminEmail" type="email" autocomplete="username" required></label><label>סיסמה<input id="adminPass" type="password" autocomplete="current-password" required></label><button class="buy" type="submit" id="adminLoginButton">כניסה לניהול</button><p id="adminMsg" class="smallnote" role="status"></p><a class="game-btn" href="#" style="text-align:center;text-decoration:none">← חזרה לאתר</a></form></div>`;
+  adminBox().innerHTML = `<div class="info"><form class="game-form" onsubmit="event.preventDefault();window.firebaseAdminLogin()"><label>אימייל<input id="adminEmail" type="email" autocomplete="username" required></label><label>סיסמה<span class="pw-wrap"><input id="adminPass" type="password" autocomplete="current-password" required><button type="button" class="pw-eye" onclick="togglePw('adminPass',this)" aria-label="הצגת הסיסמה" title="הצגת הסיסמה">👁️</button></span></label><button class="buy" type="submit" id="adminLoginButton">כניסה לניהול</button><p id="adminMsg" class="smallnote" role="status"></p><a class="game-btn" href="#" style="text-align:center;text-decoration:none">← חזרה לאתר</a></form></div>`;
 };
 window.firebaseAdminLogin = async function () {
   const msg = document.getElementById('adminMsg'), button = document.getElementById('adminLoginButton');
@@ -662,7 +666,7 @@ function orderCard(o) {
   if (o.status === 'paid') actions += `<button class="game-btn" type="button" onclick="window.adminResetPassword('${o.id}')">🔑 שליחת קישור לסיסמה חדשה ללקוח</button>`;
   if (o.status !== 'cancelled') actions += `<span><input type="date" id="date-${o.id}" value="${esc(o.gameDate)}"> <button class="game-btn" type="button" onclick="window.adminChangeDate('${o.id}')">שינוי תאריך</button></span>`;
   return `<div class="order ${esc(o.status)}"><div class="order-head"><span>הזמנה ${esc(o.code)} · ${esc(o.buyerName)}</span><span class="badge ${esc(o.status)}">${STATUS_LABEL[o.status] || esc(o.status)}</span></div>
-    <div class="order-grid"><span>📅 תאריך המשחק: <b>${formatDateHe(o.gameDate)}</b></span><span>👥 ${esc(o.participants)} משתתפים · ${Math.ceil(o.participants / 5)} קבוצות</span><span>💰 לתשלום: <b>${total.toLocaleString('he-IL')} ₪</b> ${mismatch}</span><span>📞 <a href="tel:${esc(o.phone)}" dir="ltr">${esc(formatPhone(o.phone))}</a></span><span>✉️ <span dir="ltr">${esc(o.email)}</span></span><span>🕒 הוזמן: ${created}</span>${couponInfo}</div>
+    <div class="order-grid"><span>📅 תאריך המשחק: <b>${formatDateHe(o.gameDate)}</b></span><span>👥 ${esc(o.participants)} משתתפים · ${groupCountFor(o.participants, o.groupSize === 5 ? 5 : 4)} קבוצות של ${o.groupSize === 5 ? 5 : 'עד 4'}</span><span>💰 לתשלום: <b>${total.toLocaleString('he-IL')} ₪</b> ${mismatch}</span><span>📞 <a href="tel:${esc(o.phone)}" dir="ltr">${esc(formatPhone(o.phone))}</a></span><span>✉️ <span dir="ltr">${esc(o.email)}</span></span><span>🕒 הוזמן: ${created}</span>${couponInfo}</div>
     <div class="order-actions">${actions}</div></div>`;
 }
 // ---------- קופון: הקוד נשמר בסוד (רק למנהלת); לאתר הציבורי נשמרת רק „טביעת אצבע” ----------
@@ -738,8 +742,8 @@ window.adminApprove = async function (id) {
     const batch = writeBatch(db);
     batch.set(doc(db, 'familyGames', id), {
       ownerUid, ownerEmail: o.email, buyerName: o.buyerName, phone: o.phone,
-      purchasedParticipants: o.participants, maxGroups: Math.ceil(o.participants / 5), status: 'setup',
-      gameDate: o.gameDate, accessFrom: Timestamp.fromDate(israelDayStart(o.gameDate)), accessUntil: Timestamp.fromDate(israelDayEnd(o.gameDate)),
+      purchasedParticipants: o.participants, groupSize: o.groupSize === 5 ? 5 : 4, maxGroups: groupCountFor(o.participants, o.groupSize === 5 ? 5 : 4), status: 'setup',
+      gameDate: o.gameDate, accessFrom: Timestamp.fromDate(israelDayStart(o.gameDate, GAME_OPEN_HOUR)), accessUntil: Timestamp.fromDate(israelDayEnd(o.gameDate)),
       orderId: id, orderCode: o.code, pricePaid: total, createdAt: serverTimestamp()
     });
     batch.update(doc(db, 'gameOrders', id), { status: 'paid', approvedAt: serverTimestamp(), amountPaid: total, gameId: id });
@@ -751,8 +755,8 @@ window.adminApprove = async function (id) {
   }
   const date = formatDateHe(o.gameDate);
   const text = newUser
-    ? `שלום ${o.buyerName}, התשלום התקבל — תודה!\nפרטי הכניסה למשחק המשפחה:\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nסיסמה: ${password}\nהמשחק פתוח ביום ${date} בלבד, מ־00:00 עד 23:59.\nשיהיה בהצלחה ושיהיה כיף!`
-    : `שלום ${o.buyerName}, התשלום התקבל — תודה!\nהמשחק החדש נוסף לחשבון הקיים שלך.\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nהסיסמה: אותה סיסמה כמו בפעם הקודמת (אם שכחת — יש באתר כפתור „שכחתי סיסמה”).\nהמשחק פתוח ביום ${date} בלבד, מ־00:00 עד 23:59.\nשיהיה בהצלחה ושיהיה כיף!`;
+    ? `שלום ${o.buyerName}, התשלום התקבל — תודה!\nפרטי הכניסה למשחק המשפחה:\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nסיסמה: ${password}\nהמשחק פתוח ביום ${date} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`
+    : `שלום ${o.buyerName}, התשלום התקבל — תודה!\nהמשחק החדש נוסף לחשבון הקיים שלך.\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nהסיסמה: אותה סיסמה כמו בפעם הקודמת (אם שכחת — יש באתר כפתור „שכחתי סיסמה”).\nהמשחק פתוח ביום ${date} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`;
   window.lastCredText = text;
   const subject = 'פרטי הכניסה למשחק המשפחה';
   window.lastCred = { to: o.email, subject, text };
@@ -775,7 +779,7 @@ window.adminChangeDate = async function (id) {
   try {
     const batch = writeBatch(db);
     batch.update(doc(db, 'gameOrders', id), { gameDate: value });
-    if (o.status === 'paid') batch.update(doc(db, 'familyGames', o.gameId || id), { gameDate: value, accessFrom: Timestamp.fromDate(israelDayStart(value)), accessUntil: Timestamp.fromDate(israelDayEnd(value)) });
+    if (o.status === 'paid') batch.update(doc(db, 'familyGames', o.gameId || id), { gameDate: value, accessFrom: Timestamp.fromDate(israelDayStart(value, GAME_OPEN_HOUR)), accessUntil: Timestamp.fromDate(israelDayEnd(value)) });
     await batch.commit();
   } catch (e) { console.warn(e); alert('שינוי התאריך נכשל. נסי שוב.'); }
 };
@@ -833,7 +837,7 @@ window.openManagerPlay = async function () {
       }
       if (!code) throw new Error('no-code');
       const batch = writeBatch(db);
-      batch.set(liveDoc(game.id, 'state'), { stage: 'photos', joinCode: code, updatedAt: serverTimestamp() });
+      batch.set(liveDoc(game.id, 'state'), { stage: 'photos', joinCode: code, groupSize: game.groupSize === 5 ? 5 : 4, updatedAt: serverTimestamp() });
       batch.set(liveDoc(game.id, 'groupCount'), { count: 0 });
       batch.set(liveDoc(game.id, 'playerCount'), { count: 0 });
       await batch.commit();
@@ -894,7 +898,7 @@ function renderManager() {
   if (m.state.stage === 'photos') {
     const ready = m.groups.filter(gr => gr.ready && (per[gr.id] || []).length).length;
     let reason = '';
-    if (m.groups.length < 2) reason = 'מחכים שלפחות 2 קבוצות יצטרפו.';
+    if (m.groups.length < 3) reason = `מחכים שלפחות 3 קבוצות יצטרפו (כרגע ${m.groups.length}). משחק העיניים צריך לפחות 3 קבוצות.`;
     else if (ready < m.groups.length) reason = `מחכים שכל הקבוצות ילחצו „העלינו ואנחנו מוכנים” (${ready} מתוך ${m.groups.length} מוכנות).`;
     m.plan = reason ? null : assignEyeSets(m.players, m.groups.map(gr => gr.id));
     const minutes = [2, 3, 5].map(v => `<option value="${v}" ${m.eyesMinutes === v ? 'selected' : ''}>${v} דקות</option>`).join('');
@@ -1044,7 +1048,7 @@ function renderGroup() {
   document.getElementById('grpTitle').textContent = 'קבוצת ' + c.group.name;
   const main = document.getElementById('grpMain'), add = document.getElementById('grpAdd'), crop = document.getElementById('cropBox');
   if (c.state.stage === 'photos') {
-    const editable = !c.group.ready;
+    const editable = !c.group.ready, cap = c.state.groupSize === 4 ? 4 : 5;
     const members = c.players.map(p => `<div class="member"><img src="${esc(p.eyes)}" alt="העיניים של ${esc(p.name)}"><div><strong>${esc(p.name)}</strong>${editable ? ` <button class="game-btn" type="button" onclick="window.removeMember('${esc(p.id)}')">מחיקה</button>` : ''}</div></div>`).join('');
     if (!c.started && !c.group.ready && !c.players.length) {
       // מסך פתיחה: לפני שמתחילים — כפתור גדול שמציג את סרטון ההסבר
@@ -1055,10 +1059,10 @@ function renderGroup() {
       main.innerHTML = nowBox('מה עושים עכשיו?', ['כל המשתתפים הצטלמו.', 'לחצתם „העלינו ואנחנו מוכנים”.', 'מחכים: כשכל הקבוצות יהיו מוכנות, מנהל המשחק ילחץ „המשך”. אז יופיעו כאן לבד 5 תמונות עיניים ושעון עצר.'], 2, 'לא צריך לרענן ולא לסגור את המסך.') + `<p><strong>✅ העליתם ${c.players.length === 1 ? 'משתתף אחד' : c.players.length + ' משתתפים'}:</strong></p>${members}<button class="game-btn" type="button" onclick="window.setGroupReady(false)">רגע, עוד לא — חזרה לצילום</button>`;
       add.hidden = true; crop.innerHTML = ''; pendingFace = null;
     } else {
-      main.innerHTML = nowBox('מה עושים עכשיו?', ['צופים בסרטון ההסבר.', 'כל משתתף בתורו (עד 5): כותב שם מלא — שם פרטי ושם משפחה — ולוחץ „📸 צילום פנים מקרוב”. מצלמים רק את הפנים, מקרוב — לא את כל הגוף.', 'בודקים שהעיניים ברורות ולוחצים „✓ שמירה”. הבא בתור — חוזרים לצעד 2.', 'כשכולם בקבוצה הצטלמו — לוחצים „העלינו ואנחנו מוכנים”.'], c.players.length ? 3 : 1)
-        + `<button class="game-btn" type="button" onclick="openStage(1)">▶ צפייה חוזרת בהסבר</button><p><strong>משתתפים בקבוצה: ${c.players.length} מתוך 5</strong></p>${members || '<p class="smallnote">עדיין לא הצטלם אף אחד.</p>'}${c.players.length ? '<button class="buy" type="button" onclick="window.setGroupReady(true)">העלינו ואנחנו מוכנים ✓</button>' : ''}`;
+      main.innerHTML = nowBox('מה עושים עכשיו?', ['צופים בסרטון ההסבר.', `כל משתתף בתורו (עד ${cap}): כותב שם מלא — שם פרטי ושם משפחה — ולוחץ „📸 צילום פנים מקרוב”. מצלמים רק את הפנים, מקרוב — לא את כל הגוף.`, 'בודקים שהעיניים ברורות ולוחצים „✓ שמירה”. הבא בתור — חוזרים לצעד 2.', 'כשכולם בקבוצה הצטלמו — לוחצים „העלינו ואנחנו מוכנים”.'], c.players.length ? 3 : 1)
+        + `<button class="game-btn" type="button" onclick="openStage(1)">▶ צפייה חוזרת בהסבר</button><p><strong>משתתפים בקבוצה: ${c.players.length} מתוך ${cap}</strong></p>${members || '<p class="smallnote">עדיין לא הצטלם אף אחד.</p>'}${c.players.length ? '<button class="buy" type="button" onclick="window.setGroupReady(true)">העלינו ואנחנו מוכנים ✓</button>' : ''}`;
       add.hidden = false;
-      if (c.players.length >= 5) add.innerHTML = '<p class="smallnote">הקבוצה מלאה — 5 משתתפים.</p>';
+      if (c.players.length >= cap) add.innerHTML = `<p class="smallnote">הקבוצה מלאה — ${cap} משתתפים.</p>`;
       else if (!document.getElementById('memberName')) renderAddForm();
     }
   } else if (c.state.stage === 'eyes') {
