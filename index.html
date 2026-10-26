@@ -405,10 +405,10 @@ function routeFromHash(){
 window.addEventListener('hashchange',routeFromHash);routeFromHash();
 </script>
 <script type="module">
-// קבצי Firebase יושבים באתר עצמו (תיקיית firebase) — כך הם נטענים גם כשסינון אינטרנט חוסם את gstatic.com
-import { initializeApp } from "./firebase/firebase-app.js";
-import { getAuth, initializeAuth, inMemoryPersistence, onAuthStateChanged, signInWithEmailAndPassword, signInAnonymously, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "./firebase/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs, getDoc, doc, setDoc, updateDoc, writeBatch, runTransaction, onSnapshot, orderBy, limit, serverTimestamp, Timestamp } from "./firebase/firebase-firestore.js";
+// קבצי Firebase יושבים באתר עצמו, ליד index.html — כך הם נטענים גם כשסינון אינטרנט חוסם את gstatic.com
+import { initializeApp } from "./firebase-app.js";
+import { getAuth, initializeAuth, inMemoryPersistence, onAuthStateChanged, signInWithEmailAndPassword, signInAnonymously, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "./firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, getDoc, doc, setDoc, updateDoc, writeBatch, runTransaction, onSnapshot, orderBy, limit, serverTimestamp, Timestamp } from "./firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD2RqHxKKtaVNQcSfSmvun88noAr6YhFr8",
