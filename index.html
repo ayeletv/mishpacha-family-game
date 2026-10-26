@@ -41,7 +41,7 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 .start-screen[hidden],#siteContent[hidden]{display:none!important}
 @media(max-width:600px){.start-options{grid-template-columns:1fr}.start-option{min-height:120px}}
 /* תשלום בביט וניהול הזמנות */
-.bit-box{background:#eaf7ec;border-radius:16px;padding:18px;line-height:1.8}.bit-box h3{margin:0 0 8px}.bit-box ol{margin:8px 0;padding-inline-start:22px}.bit-box[hidden],#adminScreen[hidden],#orderForm[hidden]{display:none!important}
+.pay-opt{background:#fff;border:1px solid #cfe8d4;border-radius:12px;padding:10px 14px;margin:8px 0}.pay-opt p{margin:6px 0}.bit-box{background:#eaf7ec;border-radius:16px;padding:18px;line-height:1.8}.bit-box h3{margin:0 0 8px}.bit-box ol{margin:8px 0;padding-inline-start:22px}.bit-box[hidden],#adminScreen[hidden],#orderForm[hidden]{display:none!important}
 .order{border:2px solid #e8dfd2;border-radius:14px;padding:14px;margin:10px 0;background:#fff}.order.pending{border-color:#ffc34b;background:#fffaf0}.order.cancelled{opacity:.7}
 .order-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:900}.badge{border-radius:20px;padding:3px 10px;font-size:13px;font-weight:800}.badge.pending{background:#fff0c7}.badge.paid{background:#d9f0dd}.badge.cancelled{background:#f3e3e3}
 .order-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:4px 14px;margin:8px 0;font-size:15px;word-break:break-word}.order-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}.order-actions input{font:inherit;padding:9px;border:1px solid #ddd2c0;border-radius:10px}
@@ -379,12 +379,12 @@ let pendingOrder=null;
 function showBitInstructions(order,result){
  const box=document.getElementById('bitBox'),t=order.total.toLocaleString('he-IL');
  const phone=result.bitPhone?`<strong dir="ltr">${escapeGameText(formatPhone(result.bitPhone))}</strong> <button type="button" class="game-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText('${result.bitPhone}');this.textContent='הועתק ✓'">העתקת המספר</button>`:'';
- // יש קישור תשלום בביט (מוגדר באזור הניהול) — כפתור שפותח ישר את התשלום; אחרת — העברה למספר הביט
- const steps=result.bitLink
-  ?`<p><a class="buy" href="${escapeGameText(result.bitLink)}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;font-size:20px">💳 לתשלום בביט — ${t} ₪</a></p><ol><li>לוחצים על הכפתור — נפתח התשלום בביט.</li><li>משלמים <strong>${t} ₪</strong>.</li><li>בהערה לתשלום כותבים: <strong>הזמנה ${result.code}</strong></li></ol>`
-  :phone?`<ol><li>פותחים את אפליקציית ביט בטלפון.</li><li>מעבירים <strong>${t} ₪</strong> למספר ${phone}</li><li>בהערה לתשלום כותבים: <strong>הזמנה ${result.code}</strong></li></ol>`
-  :`<p>סכום לתשלום: <strong>${t} ₪</strong>. פרטי התשלום בביט יישלחו אליכם בהקדם. בהערה לתשלום כותבים: <strong>הזמנה ${result.code}</strong></p>`;
- box.innerHTML=`<h3>✅ ההזמנה נקלטה! מספר הזמנה: ${result.code}</h3><p>נשאר רק לשלם בביט:</p>${steps}${result.emailed?'<p>📧 שלחנו לכם מייל עם פרטי ההזמנה והתשלום.</p>':''}<p>אחרי שנקבל את התשלום, נשלח שם משתמש וסיסמה לאימייל <strong dir="ltr">${escapeGameText(order.email)}</strong>.<br>המשחק יהיה פתוח ביום <strong>${formatDateHe(order.gameDate)}</strong> בלבד, מ־00:00 עד 23:59.</p><button type="button" class="game-btn" onclick="newOrder()">הזמנה נוספת</button>`;
+ // קישור תשלום (למשל קבוצה בפייבוקס) ו/או מספר ביט — כשיש את שניהם, הלקוח בוחר
+ const note=`<p>בהערה לתשלום כותבים: <strong>הזמנה ${result.code}</strong></p>`;
+ const linkPart=result.bitLink?`<div class="pay-opt"><strong>${phone?'אפשרות 1 — ':''}בקישור (פייבוקס)</strong><p><a class="buy" href="${escapeGameText(result.bitLink)}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none;font-size:20px">💳 לתשלום — ${t} ₪</a></p></div>`:'';
+ const phonePart=phone?`<div class="pay-opt"><strong>${result.bitLink?'אפשרות 2 — ':''}בביט</strong><p>פותחים את אפליקציית ביט ומעבירים <strong>${t} ₪</strong> למספר ${phone}</p></div>`:'';
+ const steps=(linkPart||phonePart)?linkPart+phonePart+note:`<p>פרטי התשלום יישלחו אליכם בהקדם.</p>${note}`;
+ box.innerHTML=`<h3>✅ ההזמנה נקלטה! מספר הזמנה: ${result.code}</h3><p>נשאר רק לשלם <strong>${t} ₪</strong>:</p>${steps}${result.emailed?'<p>📧 שלחנו לכם מייל עם פרטי ההזמנה והתשלום.</p>':''}<p>אחרי שנקבל את התשלום, נשלח שם משתמש וסיסמה לאימייל <strong dir="ltr">${escapeGameText(order.email)}</strong>.<br>המשחק יהיה פתוח ביום <strong>${formatDateHe(order.gameDate)}</strong> בלבד, מ־00:00 עד 23:59.</p><button type="button" class="game-btn" onclick="newOrder()">הזמנה נוספת</button>`;
  document.getElementById('orderForm').hidden=true;box.hidden=false;box.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function newOrder(){const f=document.getElementById('orderForm');f.reset();pendingOrder=null;couponPercent=0;document.getElementById('couponMsg').textContent='';f.hidden=false;document.getElementById('bitBox').hidden=true;document.getElementById('orderButton').disabled=false;updateGroups();}
@@ -441,7 +441,7 @@ window.firebaseSubmitOrder = async function (order, pending) {
   if (!/^https:\/\//.test(bitLink)) bitLink = '';
   // מייל „ההזמנה נקלטה” ללקוח, ומייל „הזמנה חדשה” למנהלת האתר
   const date = formatDateHe(order.gameDate), total = order.total.toLocaleString('he-IL');
-  const payLine = bitLink ? `לתשלום בביט לחצו על הקישור: ${bitLink}` : bitPhone ? `מעבירים בביט ${total} ₪ למספר ${formatPhone(bitPhone)}` : `פרטי התשלום בביט יישלחו אליכם בהקדם.`;
+  const payLine = [bitLink ? `בקישור (פייבוקס): ${bitLink}` : '', bitPhone ? `${bitLink ? 'או ' : ''}בביט — מעבירים ${total} ₪ למספר ${formatPhone(bitPhone)}` : ''].filter(Boolean).join('\n') || 'פרטי התשלום יישלחו אליכם בהקדם.';
   let emailed = false;
   try {
     emailed = await sendEmail(order.email, `ההזמנה שלך למשחק המשפחה נקלטה (הזמנה ${code})`,
@@ -619,8 +619,8 @@ async function showAdminPanel(user) {
   adminBox().innerHTML = `<div class="order-head" style="margin-bottom:12px"><span>מחוברת כ־<span dir="ltr">${esc(user.email || '')}</span></span><span>${logout} <a class="game-btn" href="#" style="text-decoration:none">← לאתר</a></span></div>
     <div class="info"><h3>💳 תשלום בביט</h3><p class="smallnote">מה שתשמרי כאן מוצג ללקוחות אחרי שליחת הזמנה.</p>
       <label><strong>מספר הביט</strong><div class="order-actions"><input id="bitPhoneInput" type="tel" inputmode="tel" placeholder="050-1234567"></div></label>
-      <label><strong>קישור לתשלום בביט (רשות)</strong><div class="order-actions"><input id="bitLinkInput" type="url" dir="ltr" placeholder="https://..." style="flex:1;min-width:220px"></div></label>
-      <p class="smallnote">אם יש לך קישור תשלום בביט (מחשבון ביט עסקי או מחברת סליקה כמו PayMe / Grow), הדביקי אותו כאן — הלקוח יקבל כפתור שפותח ישר את התשלום. בלי קישור, הלקוח יראה את מספר הביט.</p>
+      <label><strong>קישור לתשלום (רשות) — למשל קישור לקבוצה בפייבוקס</strong><div class="order-actions"><input id="bitLinkInput" type="url" dir="ltr" placeholder="https://..." style="flex:1;min-width:220px"></div></label>
+      <p class="smallnote">הדביקי כאן קישור תשלום (קבוצה בפייבוקס, ביט עסקי או חברת סליקה) — הלקוח יקבל כפתור גדול שפותח ישר את התשלום. אם שמור גם מספר ביט, הלקוח יראה את שתי האפשרויות ויבחר.</p>
       <button class="game-btn" type="button" onclick="window.saveBitPhone()">שמירה</button><p id="bitMsg" class="smallnote" role="status"></p></div>
     <div class="info"><h3>🎟️ קוד קופון</h3><p class="smallnote">לקוח שכותב את הקוד בטופס הרכישה מקבל הנחה. הקוד נשאר סודי — רק מי שקיבל אותו ממך יכול להשתמש בו.</p>
       <div class="order-actions"><label>קוד<input id="cpCode" dir="ltr" maxlength="30" placeholder="למשל: FAMILY5" style="text-transform:uppercase"></label><label>אחוז הנחה<input id="cpPercent" type="number" min="1" max="50" value="5" style="width:80px"></label><label><input id="cpActive" type="checkbox" checked> פעיל</label></div>
