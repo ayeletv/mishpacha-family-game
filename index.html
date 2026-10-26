@@ -127,7 +127,7 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" onclick="closeModal()" aria-label="סגירה">×</button><span class="pill" id="pill"></span><h2 id="title"></h2><div class="video" id="video"><strong id="videoTitle">הסבר קצר</strong><div class="clip" id="clip" aria-live="polite"></div><div class="clip-bar" id="clipBar" aria-hidden="true"></div><div class="clip-controls"><button type="button" class="game-btn" id="clipToggle" onclick="toggleClip()">⏸ השהיה</button><button type="button" class="game-btn" onclick="playClip(0)">↻ מההתחלה</button></div></div><p id="desc"></p><ol id="steps"></ol></div></div>
 <script>
 const stages={
-1:{title:'מכירים בעיניים',desc:'כל משתתף מצטלם מקרוב וכותב את השם המלא שלו, והמערכת חותכת לבד את העיניים. כל קבוצה מקבלת 5 תמונות עיניים של בני משפחה מקבוצות אחרות, ושעון עצר מתחיל — צריך לכתוב של מי העיניים. כל תשובה נכונה = נקודה!',steps:['כל משתתף מצטלם מקרוב במכשיר של הקבוצה (טלפון או מחשב עם מצלמה) — רק הפנים, לא כל הגוף — וכותב שם מלא: שם פרטי ושם משפחה.','כשכולם הצטלמו, לוחצים „העלינו ואנחנו מוכנים”.','מנהל המשחק לוחץ „המשך”: כל קבוצה מקבלת 5 תמונות עיניים של בני משפחה מקבוצות אחרות, והשעון מתחיל.','לוחצים על כל תמונה וכותבים של מי העיניים. לא צריך כתיב מושלם — „ונצקי” ו„ויניצקי” נחשבים אותו שם.','כתבתם את כל החמש? לוחצים „אישור”.','כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — מגלים לכולם מה נכון. כל תשובה נכונה = נקודה (5 נכונות = 5 נקודות).']},
+1:{title:'מכירים בעיניים',desc:'כל משתתף מצטלם מקרוב וכותב את השם המלא שלו, והמערכת חותכת לבד את העיניים. כל קבוצה מקבלת 5 תמונות עיניים של בני משפחה מקבוצות אחרות, ושעון עצר מתחיל — צריך לכתוב של מי העיניים. כל תשובה נכונה = נקודה!',steps:['כל משתתף מצטלם מקרוב במכשיר של הקבוצה (טלפון או מחשב עם מצלמה) — רק הפנים, לא כל הגוף — וכותב שם מלא: שם פרטי ושם משפחה.','כשכולם הצטלמו, לוחצים „העלינו ואנחנו מוכנים”.','מנהל המשחק לוחץ „המשך”: כל קבוצה מקבלת 5 תמונות עיניים של בני משפחה מקבוצות אחרות, והשעון מתחיל.','לוחצים על כל תמונה וכותבים של מי העיניים — שם פרטי ושם משפחה.','כתבתם את כל החמש? לוחצים „אישור”.','כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — מגלים לכולם מה נכון. כל תשובה נכונה = נקודה (5 נכונות = 5 נקודות).']},
 2:{title:'מה זה מזכיר לכם? 💭',desc:'10 סבבים: בכל סבב מופיעה תמונה — אות, מספר או ציור. יש 40 שניות לכתוב בטלפון כמה שיותר דברים שמקשרים אותה למשפחה. המערכת מורידה כפילויות, וכל תשובה תקינה שווה נקודה — ואז מקריאים בקול!',steps:['10 סבבים: בכל סבב כל הקבוצות רואות את אותה תמונה — אות, מספר או ציור.','כותבים בטלפון כמה שיותר דברים — 40 שניות לכל סבב.','תשובה תקינה = קשר אמיתי למשפחה (למשל ל־5: „לסבא יש 5 אחיות”, „סבא גר בקומה 5”). „5 אצבעות” או „5 חתולים” לא נחשבים! כפילויות לא נספרות.','מקריאים בקול, ומנהל המשחק פוסל תשובות לא תקינות. כל תשובה תקינה = נקודה: קבוצה שכתבה 7 תשובות תקינות מקבלת 7 נקודות.']},
 3:{title:'כמה אתם מכירים את המשפחה?',desc:'כל קבוצה מכניסה 5 שאלות על סבא וסבתא או על ראש המשפחה — ומקבלת נקודות על שאלות מעניינות וטובות. המערכת בוחרת את השאלות, כל הקבוצות עונות בטלפון — וסבא או סבתא קובעים מי צדק!',steps:['כל קבוצה מכניסה בטלפון 5 שאלות על סבא וסבתא או על ראש המשפחה.','שאלה מעניינת וטובה מזכה את הקבוצה בנקודות.','המערכת בוחרת את השאלות, וכל קבוצה כותבת תשובה בטלפון שלה.','סבא או סבתא אומרים מי צדק!']}
 };
@@ -147,8 +147,7 @@ const clips={
  {art:'✅',text:'כולם הצטלמו? לוחצים „העלינו ואנחנו מוכנים”',ms:3300},
  {art:'▶️ ⏱️',text:'מנהל המשחק לוחץ „המשך” — ושעון העצר מתחיל!',ms:3300},
  {art:'👀 ×5',text:'כל קבוצה מקבלת 5 תמונות עיניים של בני משפחה מקבוצות אחרות',ms:3800},
- {art:'👆 ✍️',text:'לוחצים על כל תמונה וכותבים של מי העיניים',ms:3500},
- {art:'🔤',text:'לא צריך כתיב מושלם — „ונצקי” ו„ויניצקי” נחשבים אותו שם',ms:4000},
+ {art:'👆 ✍️',text:'לוחצים על כל תמונה וכותבים של מי העיניים — שם פרטי ושם משפחה',ms:3800},
  {art:'✅',text:'כתבתם את כל החמש? לוחצים „אישור”',ms:3000},
  {art:'⏳ 🎉',text:'כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — מגלים לכולם מה נכון',ms:4200},
  {art:'🏅',text:'כל תשובה נכונה = נקודה. 5 נכונות = 5 נקודות!',ms:3500}],
@@ -608,7 +607,15 @@ async function showAdminPanel(user) {
   let isAdmin = false;
   try { isAdmin = (await getDoc(doc(db, 'admins', user.uid))).exists(); } catch (e) { console.warn(e); }
   const logout = `<button class="game-btn" type="button" onclick="window.firebaseAdminLogout()">יציאה</button>`;
-  if (!isAdmin) { adminBox().innerHTML = `<div class="info"><p class="warn">לחשבון ${esc(user.email || '')} אין הרשאת ניהול.</p>${logout}</div>`; return; }
+  if (!isAdmin) {
+    // הכניסה הצליחה, אבל החשבון עוד לא מסומן כמנהלת — מציגים את ה־UID ואת הצעדים להוספה
+    adminBox().innerHTML = `<div class="info"><p><strong>✅ הכניסה הצליחה</strong> (<span dir="ltr">${esc(user.email || '')}</span>), אבל החשבון עוד לא מוגדר כמנהלת.</p>
+      <p>ה־UID שלך:<br><code dir="ltr" style="font-size:16px;background:#fff0c7;padding:6px 10px;border-radius:8px;display:inline-block;word-break:break-all">${esc(user.uid)}</code>
+      <button class="game-btn" type="button" onclick="navigator.clipboard.writeText('${esc(user.uid)}');this.textContent='הועתק ✓'">העתקה</button></p>
+      ${nowBox('מה עושים (פעם אחת בלבד)?', ['לוחצים „העתקה” למעלה.', 'ב־Firebase: Firestore Database ← לשונית Data ← „+ Start collection”.', 'Collection ID: כותבים admins (באנגלית, באותיות קטנות, עם s בסוף) ← Next.', 'Document ID: מדביקים את ה־UID (Ctrl+V). לא ללחוץ על Auto-ID.', 'Field: name · Type: string · Value: השם שלך ← Save.', 'חוזרים לכאן ומרעננים את הדף (F5).'], 0)}
+      ${logout}</div>`;
+    return;
+  }
   adminBox().innerHTML = `<div class="order-head" style="margin-bottom:12px"><span>מחוברת כ־<span dir="ltr">${esc(user.email || '')}</span></span><span>${logout} <a class="game-btn" href="#" style="text-decoration:none">← לאתר</a></span></div>
     <div class="info"><h3>💳 תשלום בביט</h3><p class="smallnote">מה שתשמרי כאן מוצג ללקוחות אחרי שליחת הזמנה.</p>
       <label><strong>מספר הביט</strong><div class="order-actions"><input id="bitPhoneInput" type="tel" inputmode="tel" placeholder="050-1234567"></div></label>
@@ -1080,7 +1087,7 @@ function renderGroupEyes(main) {
   if (c.eyesBuilt) return; // לא לבנות מחדש — כדי לא למחוק את מה שהקבוצה כבר כתבה
   c.eyesBuilt = true;
   main.innerHTML = `<div class="timer-bar">⏱️ <span data-countdown>${fmtClock(eyesEndMs(c.state) - Date.now())}</span></div>`
-    + nowBox('מה עושים עכשיו?', [`לוחצים על כל אחת מ־${n} התמונות וכותבים מתחתיה של מי העיניים — שם פרטי ושם משפחה.`, 'מתייעצים בתוך הקבוצה.', `כתבתם את כל ה־${n}? לוחצים „אישור”.`, 'כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — מגלים לכולם מה נכון.'], 0, 'לא צריך כתיב מושלם. כל תשובה נכונה = נקודה.')
+    + nowBox('מה עושים עכשיו?', [`לוחצים על כל אחת מ־${n} התמונות וכותבים מתחתיה של מי העיניים — שם פרטי ושם משפחה.`, 'מתייעצים בתוך הקבוצה.', `כתבתם את כל ה־${n}? לוחצים „אישור”.`, 'כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — מגלים לכולם מה נכון.'], 0, 'כל תשובה נכונה = נקודה.')
     + items.map((it, i) => `<div class="member eyes-card"><strong>תמונה ${i + 1} מתוך ${n}</strong><img src="${esc(it.eyes)}" alt="עיניים לזיהוי" onclick="document.getElementById('guess-${i}').focus()"><input id="guess-${i}" class="guess" data-pid="${esc(it.pid)}" maxlength="40" autocomplete="off" placeholder="של מי העיניים? שם פרטי ושם משפחה" oninput="window.updateGuessButton()"></div>`).join('')
     + '<button class="buy start-big" type="button" id="submitGuesses" onclick="window.submitGuesses(false)" disabled>אישור ✓</button><p class="smallnote" id="guessHint" style="text-align:center"></p>';
   window.updateGuessButton();
