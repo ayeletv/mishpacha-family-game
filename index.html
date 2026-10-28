@@ -315,13 +315,13 @@ function assignEyeSets(players,groupIds){
  return {sets,problems:[...new Set(problems)]};
 }
 // ---------- השוואת שמות בלי לדרוש כתיב מושלם ----------
-// ”משה ונצקי” = ”משה ויניצקי”; אבל ”שרה” ≠ ”שירה” (בשמות קצרים דורשים התאמה מלאה)
+// ”משה רבנוביץ” = ”משה רבינוביץ”; אבל ”שרה” ≠ ”שירה” (בשמות קצרים דורשים התאמה מלאה)
 function nameTokens(s){
  return String(s||'').toLowerCase().replace(/[֑-ׇ]/g,'').replace(/[׳'"״`\-–—.,()]/g,' ')
   .replace(/[ךםןףץ]/g,c=>({'ך':'כ','ם':'מ','ן':'נ','ף':'פ','ץ':'צ'}[c])).split(/\s+/).filter(Boolean);
 }
 function levenshtein(a,b){const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
-// בלי אותיות אמות (ו, י, א, ה) אחרי האות הראשונה: ”ויניצקי” → ”ונצק”
+// בלי אותיות אמות (ו, י, א, ה) אחרי האות הראשונה: ”רבינוביץ” → ”רבנבץ”
 function nameSkeleton(t){return t[0]+t.slice(1).replace(/[ויאה]/g,'')}
 // loose = שם משפחה: סלחנות קצת יותר גדולה (”כהן” = ”כהנא”); בשם פרטי מחמירים (”שרה” ≠ ”שירה”)
 // כינויים נפוצים = השם המלא (”יוסי” = ”יוסף”)
@@ -1439,7 +1439,7 @@ window.startGroupGame = function () {
   renderGroup(); openStage(1, true);
 };
 function renderAddForm() {
-  document.getElementById('grpAdd').innerHTML = `<div class="info"><h3>➕ הוספת משתתף/ת</h3><form class="game-form" onsubmit="event.preventDefault();const n=document.getElementById('memberName');if(n.value.trim().split(/\\s+/).length<2){n.setCustomValidity('כתבו שם פרטי ושם משפחה');n.reportValidity();return;}document.getElementById('faceInput').click()"><p style="margin:0 0 6px"><strong>✍️ נסו לדייק: שם פרטי + שם משפחה — כמו שכולם מכירים אתכם, כדי שאחרים יזהו אותכם.</strong></p><label>שם מלא — שם פרטי ושם משפחה<input id="memberName" maxlength="40" required placeholder="למשל: משה ויניצקי" oninput="this.setCustomValidity('')"></label><button class="buy" type="submit">📸 צילום פנים מקרוב</button><input type="file" id="faceInput" accept="image/*" capture="user" hidden onchange="window.handleFacePhoto(this)"></form><p class="smallnote">טיפ: מחזיקים את הטלפון קרוב, כך שהפנים ימלאו את המסך, במקום מואר.</p></div>`;
+  document.getElementById('grpAdd').innerHTML = `<div class="info"><h3>➕ הוספת משתתף/ת</h3><form class="game-form" onsubmit="event.preventDefault();const n=document.getElementById('memberName');if(n.value.trim().split(/\\s+/).length<2){n.setCustomValidity('כתבו שם פרטי ושם משפחה');n.reportValidity();return;}document.getElementById('faceInput').click()"><p style="margin:0 0 6px"><strong>✍️ נסו לדייק: שם פרטי + שם משפחה — כמו שכולם מכירים אתכם, כדי שאחרים יזהו אותכם.</strong></p><label>שם מלא — שם פרטי ושם משפחה<input id="memberName" maxlength="40" required placeholder="למשל: משה כהן" oninput="this.setCustomValidity('')"></label><button class="buy" type="submit">📸 צילום פנים מקרוב</button><input type="file" id="faceInput" accept="image/*" capture="user" hidden onchange="window.handleFacePhoto(this)"></form><p class="smallnote">טיפ: מחזיקים את הטלפון קרוב, כך שהפנים ימלאו את המסך, במקום מואר.</p></div>`;
 }
 const FACE_ERRORS = {
   noface: 'לא מצאנו פנים בתמונה. צלמו שוב — מקרוב, רק הפנים, במקום מואר.',
