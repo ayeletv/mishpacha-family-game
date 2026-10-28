@@ -131,7 +131,7 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 <div class="purchase-summary" id="groupSummary">50 משתתפים</div>
 <div class="purchase-summary" id="phoneSummary" style="background:#dceefa">📱 חובה טלפון אחד לכל קבוצה</div>
 <div class="purchase-summary" id="totalSummary">עלות כוללת: 320 ₪</div>
-<p class="smallnote">חשוב לדעת: בין 10 ל־50 משתתפים. את הקבוצות מחליטים במקום — בכל גודל: אדם אחד, 3, 5, 10 או ערבוב. צריך לפחות 4 קבוצות, ו<strong>לכל קבוצה חובה מכשיר אחד</strong> — מומלץ טלפון (או מחשב נייד עם מצלמה ומיקרופון).</p>
+<p class="smallnote">חשוב לדעת: בין 10 ל־50 משתתפים. את הקבוצות מחליטים במקום — בכל גודל: אדם אחד, 3, 5, 10 או ערבוב. צריך לפחות 3 קבוצות, ו<strong>לכל קבוצה חובה מכשיר אחד</strong> — מומלץ טלפון (או מחשב נייד עם מצלמה ומיקרופון).</p>
 <label for="gameDate"><strong>תאריך המשחק</strong></label><input id="gameDate" type="date" required oninput="this.setCustomValidity('')">
 <p class="smallnote">המשחק יהיה פתוח רק בתאריך הזה — מ־6:00 בבוקר עד 12 בלילה.</p>
 <label for="buyer"><strong>שם הרוכש/ת</strong></label><input id="buyer" placeholder="שם מלא" required maxlength="60" autocomplete="name">
@@ -257,10 +257,10 @@ function getTotalPrice(n){
  if(n<=20)return 210;
  return Math.min(320,210+(n-20)*10);
 }
-// גבולות המשחק: 10–50 משתתפים, לפחות 4 קבוצות (בלי מקסימום), קבוצה יכולה להיות גם אדם אחד
-const MIN_PARTICIPANTS=10,MAX_PARTICIPANTS=50,MIN_GROUPS=4,MIN_GROUP_SIZE=1;
+// גבולות המשחק: 10–50 משתתפים, לפחות 3 קבוצות (בלי מקסימום), קבוצה יכולה להיות גם אדם אחד
+const MIN_PARTICIPANTS=10,MAX_PARTICIPANTS=50,MIN_GROUPS=3,MIN_GROUP_SIZE=1;
 const maxGroupsFor=n=>n;
-// מספר הקבוצות לפי גודל הקבוצה שנבחר (4 מומלץ, או 5) — ולפחות 4 קבוצות
+// מספר הקבוצות לפי גודל הקבוצה שנבחר (4 מומלץ, או 5) — ולפחות 3 קבוצות
 function groupCountFor(n,size){return Math.max(MIN_GROUPS,Math.ceil(n/(size||4)))}
 function getGroupSizes(n,size){
  if(n<1)return [];
@@ -280,7 +280,7 @@ function updateGroups(){
  if(typed<10){document.getElementById('groupSummary').textContent='מינימום 10 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה';document.getElementById('totalSummary').textContent='עלות כוללת: 210 ₪ (מחיר מינימום ל־10–20 משתתפים)';return;}
  if(typed>MAX_PARTICIPANTS){document.getElementById('groupSummary').textContent='אפשר להזמין עד 50 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה';document.getElementById('totalSummary').textContent='';return;}
  const n=typed;
- document.getElementById('groupSummary').textContent=n+' משתתפים · מתחלקים לקבוצות במקום, בכל גודל (לפחות 4 קבוצות)';
+ document.getElementById('groupSummary').textContent=n+' משתתפים · מתחלקים לקבוצות במקום, בכל גודל (לפחות 3 קבוצות)';
  document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה (או מחשב)';
  const total=getTotalPrice(n),final=finalPrice(n,couponPercent);
  document.getElementById('totalSummary').textContent=couponPercent?`עלות כוללת: ${final.toLocaleString('he-IL')} ₪ (במקום ${total.toLocaleString('he-IL')} ₪ — ${couponPercent}% הנחה)`:'עלות כוללת: '+total.toLocaleString('he-IL')+' ₪';
@@ -580,7 +580,7 @@ function renderManagerGame(game) {
   clearTimeout(expiryTimer);
   const participants = Number(game.purchasedParticipants);
   const date = formatDateHe(game.gameDate);
-  const purchase = `רכשת ${participants} משתתפים. מתחלקים לקבוצות בכל גודל שרוצים (לפחות 4 קבוצות) — כל קבוצה כותבת כמה משתתפים יש בה. 📱 חובה טלפון אחד לכל קבוצה.`;
+  const purchase = `רכשת ${participants} משתתפים. מתחלקים לקבוצות בכל גודל שרוצים (לפחות 3 קבוצות) — כל קבוצה כותבת כמה משתתפים יש בה. 📱 חובה טלפון אחד לכל קבוצה.`;
   const logout = `<button class="game-btn" type="button" onclick="window.firebaseManagerLogout()">יציאה מהחשבון</button>`;
   const title = document.getElementById('gameAccessTitle'), intro = document.getElementById('gameAccessIntro'), box = document.getElementById('gameAccessContent');
   const state = gameWindow(game);
@@ -617,9 +617,9 @@ function authErrorMessage(error) {
 window.firebaseResetPassword = async function () {
   const email = document.getElementById('managerUser')?.value.trim();
   const msg = document.getElementById('firebaseLoginMsg');
-  if (!email) { msg.textContent = 'כתבו קודם את כתובת האימייל, ואז לחצו ”שכחתי סיסמה”.'; return; }
-  try { await sendPasswordResetEmail(auth, email); } catch (e) { console.warn(e); }
-  msg.textContent = 'אם האימייל רשום אצלנו, נשלח אליו עכשיו קישור לבחירת סיסמה חדשה. כדאי לבדוק גם בתיקיית הספאם.';
+  // לכל הזמנה סיסמה משלה — היא כתובה במייל ”פרטי הכניסה למשחק המשפחה”. חשבון ישן (לפני 28.10) עדיין מקבל קישור איפוס
+  if (email) try { await sendPasswordResetEmail(auth, email); } catch (e) { console.warn(e); }
+  msg.textContent = 'הסיסמה כתובה במייל ”פרטי הכניסה למשחק המשפחה” שקיבלתם אחרי התשלום (לכל הזמנה יש סיסמה משלה). כדאי לחפש גם בספאם. לא מוצאים? ענו למייל או פנו אלינו — ונשלח סיסמה חדשה.';
 };
 
 window.firebaseManagerLogin = async function () {
@@ -632,7 +632,13 @@ window.firebaseManagerLogin = async function () {
   msg.textContent = 'מתחברים…';
   if (button) button.disabled = true;
   try {
-    const credential = await signInWithEmailAndPassword(auth, email, password);
+    // קודם הסיסמה של ההזמנה (משתמש לכל הזמנה), ואם לא — חשבון ישן שנוצר לפני 28.10 על האימייל עצמו
+    let credential;
+    try { credential = await signInWithEmailAndPassword(auth, await orderLoginEmail(email, password), password); }
+    catch (e) {
+      if (!['auth/invalid-credential', 'auth/user-not-found', 'auth/wrong-password', 'auth/invalid-login-credentials'].includes(e.code)) throw e;
+      credential = await signInWithEmailAndPassword(auth, email, password);
+    }
     const games = (await loadMyGames(credential.user)).filter(g => Number(g.purchasedParticipants) > 0);
     if (!games.length) {
       msg.textContent = 'הכניסה הצליחה, אבל לא נמצאה רכישה המשויכת לחשבון הזה. אם רכשתם את המשחק, פנו אלינו ונבדוק.';
@@ -666,6 +672,24 @@ function emailButtons(to, subject, body) {
 function makePassword() {
   const words = ['family', 'happy', 'smile', 'party', 'sunny', 'games'], n = new Uint32Array(2); crypto.getRandomValues(n);
   return words[n[0] % words.length] + String(1000 + n[1] % 9000);
+}
+// לכל הזמנה סיסמה חדשה — גם ללקוח חוזר עם אותו אימייל. הלקוח נכנס כרגיל עם האימייל שלו + הסיסמה מההזמנה;
+// מאחורי הקלעים כתובת הכניסה ב־Firebase נגזרת מהאימייל והסיסמה יחד, כך שלכל הזמנה יש משתמש משלה
+async function orderLoginEmail(email, password) {
+  const data = new TextEncoder().encode(email.trim().toLowerCase() + '|' + password);
+  const hex = [...new Uint8Array(await crypto.subtle.digest('SHA-256', data))].map(b => b.toString(16).padStart(2, '0')).join('');
+  return 'g' + hex.slice(0, 24) + '@famgame-il.github.io';
+}
+async function createOrderLogin(email) {
+  for (let i = 0; i < 4; i++) {
+    const password = makePassword();
+    try {
+      const cred = await createUserWithEmailAndPassword(creatorAuth, await orderLoginEmail(email, password), password);
+      await signOut(creatorAuth);
+      return { uid: cred.user.uid, password };
+    } catch (e) { if (e.code !== 'auth/email-already-in-use') throw e; }
+  }
+  throw new Error('no-password');
 }
 // ---------- ניקוי אוטומטי: יום אחרי המשחק נמחק כל תוכן המשחק (תמונות, שמות, קבוצות, תשובות) ----------
 // ההזמנות עצמן נשארות (רישום תשלומים). הניקוי רץ לבד, ברקע, בכל פעם שהאתר נפתח במכשיר שמחובר כמנהלת — ועוד פעם בשעה כל עוד הוא פתוח.
@@ -739,7 +763,7 @@ async function showAdminPanel(user) {
       <div class="order-actions"><label>קוד<input id="cpCode" dir="ltr" maxlength="30" placeholder="למשל: FAMILY5" style="text-transform:uppercase"></label><label>אחוז הנחה<input id="cpPercent" type="number" min="1" max="50" value="5" style="width:80px"></label><label><input id="cpActive" type="checkbox" checked> פעיל</label></div>
       <div class="order-actions" style="margin-top:8px"><button class="game-btn" type="button" onclick="window.saveCoupon()">שמירה</button></div><p id="cpMsg" class="smallnote" role="status"></p></div>
     <div class="info"><h3>📧 מיילים אוטומטיים</h3><p class="smallnote">כשההגדרות כאן מלאות: הלקוח מקבל מייל ”ההזמנה נקלטה”, את מקבלת מייל על כל הזמנה חדשה, ואחרי אישור תשלום אפשר לשלוח ללקוח את פרטי הכניסה בלחיצה אחת. ההגדרות נלקחות מחשבון EmailJS (הסבר במדריך).</p>
-      <div class="fields"><label>האימייל שלך (לקבלת הזמנות חדשות)<input id="emAdminEmail" type="email" dir="ltr"></label><label>Service ID<input id="emServiceId" dir="ltr" placeholder="service_xxxxxxx"></label><label>Template ID<input id="emTemplateId" dir="ltr" placeholder="template_xxxxxxx"></label><label>Public Key<input id="emPublicKey" dir="ltr"></label></div>
+      <div class="fields"><label>האימייל שהלקוחות רואים (מופיע באתר, הלקוחות עונים אליו, והזמנות חדשות נשלחות אליו) — לא אימייל אישי<input id="emAdminEmail" type="email" dir="ltr"></label><label>Service ID<input id="emServiceId" dir="ltr" placeholder="service_xxxxxxx"></label><label>Template ID<input id="emTemplateId" dir="ltr" placeholder="template_xxxxxxx"></label><label>Public Key<input id="emPublicKey" dir="ltr"></label></div>
       <div class="order-actions" style="margin-top:10px"><button class="game-btn" type="button" onclick="window.saveEmailCfg()">שמירה</button><button class="game-btn" type="button" onclick="window.testEmail()">שליחת מייל בדיקה אליי</button></div><p id="emMsg" class="smallnote" role="status"></p></div>
     <div id="credBox"></div><div class="admin-filter" id="adminFilter"></div><div id="ordersList"><p class="smallnote">טוענים הזמנות…</p></div>`;
   try { const s = await getDoc(doc(db, 'settings', 'payment')); if (s.exists()) { document.getElementById('bitPhoneInput').value = formatPhone(s.data().bitPhone || ''); document.getElementById('bitLinkInput').value = s.data().bitLink || ''; } } catch (e) { console.warn(e); }
@@ -775,7 +799,7 @@ function orderCard(o) {
   const wiped = o.dataDeletedAt ? `<span>🧹 נתוני המשחק נמחקו (${o.dataDeletedAt.toDate().toLocaleDateString('he-IL', { timeZone: 'Asia/Jerusalem' })})</span>` : '';
   let actions = '';
   if (o.status === 'pending') actions += `<button class="buy" type="button" onclick="window.adminApprove('${o.id}')">✅ התשלום התקבל — יצירת משתמש</button><button class="game-btn" type="button" onclick="window.adminCancel('${o.id}')">✖ ביטול הזמנה</button>`;
-  if (o.status === 'paid') actions += `<button class="game-btn" type="button" onclick="window.adminResetPassword('${o.id}')">🔑 שליחת קישור לסיסמה חדשה ללקוח</button>`;
+  if (o.status === 'paid') actions += `<button class="game-btn" type="button" onclick="window.adminNewPassword('${o.id}')">🔑 סיסמה חדשה ללקוח</button>`;
   if (o.status !== 'cancelled') actions += `<span><input type="date" id="date-${o.id}" value="${esc(o.gameDate)}"> <button class="game-btn" type="button" onclick="window.adminChangeDate('${o.id}')">שינוי תאריך</button></span>`;
   if (o.status === 'paid') actions += `<button class="game-btn" type="button" onclick="window.adminWipeData('${o.id}')">🧹 מחיקת נתוני המשחק</button><button class="game-btn" type="button" onclick="window.adminCancel('${o.id}')">✖ ביטול ההזמנה</button>`;
   if (o.status !== 'paid') actions += `<button class="game-btn danger" type="button" onclick="window.adminDeleteOrder('${o.id}')">🗑️ מחיקת ההזמנה לגמרי</button>`;
@@ -847,12 +871,9 @@ window.adminApprove = async function (id) {
   const { total } = orderPrice(o);
   if (!confirm(`לאשר שהתקבל בביט תשלום של ${total} ₪ מ־${o.buyerName} (הזמנה ${o.code})?\nאחרי האישור ייווצר משתמש ללקוח.`)) return;
   credBox.innerHTML = '<div class="cred">יוצרים משתמש…</div>';
-  const password = makePassword(); let ownerUid = null, newUser = true;
-  try { const cred = await createUserWithEmailAndPassword(creatorAuth, o.email, password); ownerUid = cred.user.uid; await signOut(creatorAuth); }
-  catch (e) {
-    if (e.code === 'auth/email-already-in-use') newUser = false;
-    else { console.warn(e); credBox.innerHTML = `<div class="cred warn">יצירת המשתמש נכשלה (${esc(e.code || e.message)}). נסי שוב.</div>`; return; }
-  }
+  let ownerUid, password;
+  try { ({ uid: ownerUid, password } = await createOrderLogin(o.email)); }
+  catch (e) { console.warn(e); credBox.innerHTML = `<div class="cred warn">יצירת המשתמש נכשלה (${esc(e.code || e.message)}). נסי שוב.</div>`; return; }
   try {
     const batch = writeBatch(db);
     batch.set(doc(db, 'familyGames', id), {
@@ -865,22 +886,24 @@ window.adminApprove = async function (id) {
     await batch.commit();
   } catch (e) {
     console.warn(e);
-    credBox.innerHTML = `<div class="cred warn">המשתמש נוצר${newUser ? ` (סיסמה: ${esc(password)})` : ''}, אבל שמירת המשחק נכשלה. לחצי שוב על ”התשלום התקבל” — המשחק יישמר והלקוח ייכנס עם אותה סיסמה.</div>`;
+    credBox.innerHTML = '<div class="cred warn">שמירת המשחק נכשלה. לחצי שוב על ”התשלום התקבל” — תיווצר סיסמה חדשה.</div>';
     return;
   }
-  const date = formatDateHe(o.gameDate);
-  const text = newUser
-    ? `שלום ${o.buyerName}, התשלום התקבל — תודה!\nפרטי הכניסה למשחק המשפחה:\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nסיסמה: ${password}\nהמשחק פתוח ביום ${date} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`
-    : `שלום ${o.buyerName}, התשלום התקבל — תודה!\nהמשחק החדש נוסף לחשבון הקיים שלך.\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nהסיסמה: אותה סיסמה כמו בפעם הקודמת (אם שכחת — יש באתר כפתור ”שכחתי סיסמה”).\nהמשחק פתוח ביום ${date} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`;
+  await showCred(o, password, `✅ התשלום אושר ונוצרה סיסמה עבור ${esc(o.buyerName)}`, 'התשלום התקבל — תודה!');
+};
+// מסך ”שולחים ללקוח את הפרטים” — אחרי אישור תשלום או אחרי סיסמה חדשה
+async function showCred(o, password, title, opening) {
+  const credBox = document.getElementById('credBox');
+  const text = `שלום ${o.buyerName}, ${opening}\nפרטי הכניסה למשחק המשפחה:\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nסיסמה: ${password}\n(לכל הזמנה יש סיסמה משלה — שמרו את המייל הזה.)\nהמשחק פתוח ביום ${formatDateHe(o.gameDate)} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`;
   window.lastCredText = text;
   const subject = 'פרטי הכניסה למשחק המשפחה';
   window.lastCred = { to: o.email, subject, text };
   const autoBtn = (await getEmailCfg()).serviceId ? '<button class="buy" type="button" onclick="window.autoSendCred(this)">📧 שליחה אוטומטית ללקוח עכשיו</button>' : '';
-  credBox.innerHTML = `<div class="cred"><strong>✅ התשלום אושר${newUser ? ' ונוצר משתמש' : ' (ללקוח כבר היה משתמש)'} עבור ${esc(o.buyerName)}</strong>\n<strong>עכשיו שולחים ללקוח את הפרטים במייל:</strong>\n${esc(text)}
+  credBox.innerHTML = `<div class="cred"><strong>${title}</strong>\n<strong>עכשיו שולחים ללקוח את הפרטים במייל:</strong>\n${esc(text)}
     <div class="order-actions">${autoBtn}${emailButtons(o.email, subject, text)}<button class="game-btn" type="button" onclick="navigator.clipboard.writeText(window.lastCredText);this.textContent='הועתק ✓'">העתקה</button></div>
-    <p class="smallnote">הסיסמה לא נשמרת במערכת — שלחי אותה עכשיו. אם היא תאבד, אפשר לשלוח ללקוח קישור לסיסמה חדשה.</p></div>`;
+    <p class="smallnote">הסיסמה לא נשמרת במערכת — שלחי אותה עכשיו. אם היא תאבד, לוחצים בהזמנה ”🔑 סיסמה חדשה ללקוח”.</p></div>`;
   credBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
+}
 // משחק שמשחקים בו עכשיו — אזהרה לפני מחיקה
 async function gameIsOpenNow(gameId) {
   try { const g = await getDoc(doc(db, 'familyGames', gameId)); return g.exists() && gameWindow(g.data()) === 'open'; } catch (e) { console.warn(e); return false; }
@@ -937,11 +960,17 @@ window.adminChangeDate = async function (id) {
     await batch.commit();
   } catch (e) { console.warn(e); alert('שינוי התאריך נכשל. נסי שוב.'); }
 };
-window.adminResetPassword = async function (id) {
+// הלקוח שכח את הסיסמה — נוצרת סיסמה חדשה למשחק הזה (הקודמת מפסיקה לעבוד)
+window.adminNewPassword = async function (id) {
   const o = adminOrders.find(x => x.id === id);
-  if (!o || !confirm(`לשלוח ל־${o.email} קישור לבחירת סיסמה חדשה?`)) return;
-  try { await sendPasswordResetEmail(auth, o.email); alert('הקישור נשלח למייל של הלקוח.'); }
-  catch (e) { console.warn(e); alert('השליחה נכשלה. נסי שוב.'); }
+  if (!o || !confirm(`ליצור ל־${o.buyerName} סיסמה חדשה למשחק של ${formatDateHe(o.gameDate)}?\nהסיסמה הקודמת תפסיק לעבוד.`)) return;
+  const credBox = document.getElementById('credBox');
+  credBox.innerHTML = '<div class="cred">יוצרים סיסמה חדשה…</div>';
+  try {
+    const { uid, password } = await createOrderLogin(o.email);
+    await updateDoc(doc(db, 'familyGames', o.gameId || id), { ownerUid: uid });
+    await showCred(o, password, `🔑 נוצרה סיסמה חדשה עבור ${esc(o.buyerName)}`, 'הנה סיסמה חדשה.');
+  } catch (e) { console.warn(e); credBox.innerHTML = `<div class="cred warn">יצירת הסיסמה נכשלה (${esc(e.code || e.message)}). נסי שוב.</div>`; }
 };
 // ---------- המשחק בזמן אמת: מנהל המשחק וטלפוני הקבוצות ----------
 // הנתונים יושבים תחת familyGames/{gameId}: live/state (השלב והקוד), live/groupCount ו־live/playerCount (מונים לאכיפת המכסה),
@@ -1042,7 +1071,7 @@ function startTicker() {
     if (st.stage !== 'eyes') return;
     const left = eyesEndMs(st) - Date.now();
     document.querySelectorAll('[data-countdown]').forEach(el => { el.textContent = fmtClock(left); el.closest('.timer-bar')?.classList.toggle('urgent', left < 30000); });
-    if (groupCtx && left <= 0 && !groupCtx.submitted && !groupCtx.autoSent) { groupCtx.autoSent = true; window.submitGuesses(true); }
+    if (groupCtx && left <= 0 && (!groupCtx.submitted || groupCtx.editing) && !groupCtx.autoSent) { groupCtx.autoSent = true; window.submitGuesses(true); }
     if (managerCtx && left < -6000) window.managerRevealResults();
   }, 500);
 }
@@ -1134,7 +1163,7 @@ function renderManager() {
   }).join('') || '<p class="smallnote">עדיין לא הצטרפו קבוצות.</p>';
   let stageHtml = '';
   if (m.state.stage === 'photos') {
-    // בדיקות תקינות לפני ”המשך”: לפחות 4 קבוצות, כל קבוצה מלאה בדיוק לפי מה שנדרש ולחצה ”מוכנים”, ואין שמות כפולים
+    // בדיקות תקינות לפני ”המשך”: לפחות 3 קבוצות, כל קבוצה מלאה בדיוק לפי מה שנדרש ולחצה ”מוכנים”, ואין שמות כפולים
     const ready = m.groups.filter(gr => { const ps = per[gr.id] || []; return gr.ready && ps.length === requiredFor(m.state, gr, ps.length); }).length;
     const dups = duplicateNames(m.players, m.groups);
     let reason = '';
@@ -1302,7 +1331,9 @@ function startGroup(gameId) {
     if (!s.exists()) { stopPlay(); const el = document.getElementById('grpMain'); if (el) el.innerHTML = '<div class="now-box"><strong>המשחק הסתיים 👋</strong><p>תודה ששיחקתם!</p></div>'; return; }
     const prev = c.state && c.state.stage; c.state = s.data({ serverTimestamps: 'estimate' }); if (prev !== c.state.stage) c.eyesBuilt = false; r();
   }, playError));
-  playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'answers', uid), s => { const was = c.submitted; c.submitted = s.exists(); if (was !== c.submitted) c.eyesBuilt = false; r(); }, playError));
+  playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'answers', uid), s => { const was = c.submitted; c.submitted = s.exists(); c.savedGuesses = s.exists() ? s.data().guesses : null; if (was !== c.submitted) c.eyesBuilt = false; r(); }, playError));
+  // כל הקבוצות — כדי שכל קבוצה תראה מי כבר מוכנה (כמו שמנהל המשחק רואה)
+  playUnsubs.push(onSnapshot(collection(db, 'familyGames', gameId, 'groups'), s => { c.allGroups = s.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (a.index || 0) - (b.index || 0)); r(); }, () => { }));
   playUnsubs.push(onSnapshot(liveDoc(gameId, 'results'), s => { c.results = s.exists() ? s.data() : null; r(); }, () => { }));
   playUnsubs.push(onSnapshot(liveDoc(gameId, 'assoc'), s => { c.assoc = s.exists() ? s.data() : null; r(); }, () => { }));
   startTicker(); loadWatchdog(c, 'grpMain');
@@ -1311,20 +1342,28 @@ function startGroup(gameId) {
   playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'assignments', uid), s => { c.assignment = s.exists() ? s.data() : null; r(); }, playError));
   playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'whoAssign', uid), s => { c.whoAssign = s.exists() ? s.data() : null; r(); }, () => { }));
 }
+// מצב כל הקבוצות בזמן הצילום: מי כבר מוכנה ומי עוד מצטלמת
+function groupsStatusHtml(c) {
+  const all = c.allGroups || []; if (all.length < 2) return '';
+  const ready = all.filter(g => g.ready).length;
+  return `<div class="info" style="margin-top:12px"><h3 style="margin:0 0 6px">👥 כל הקבוצות — ${ready} מתוך ${all.length} מוכנות</h3><div class="group-list">`
+    + all.map(g => `<div class="group-item"><span>${esc(g.name)}${g.id === c.uid ? ' (אתם)' : ''}${g.size ? ` · ${g.size === 1 ? 'משתתף אחד' : g.size + ' משתתפים'}` : ''}</span><span class="badge ${g.ready ? 'paid' : 'pending'}">${g.ready ? '✓ מוכנה' : '⏳ עוד מצטלמים'}</span></div>`).join('')
+    + '</div></div>';
+}
 function renderGroup() {
   const c = groupCtx; if (!c || !c.state || !c.group) return;
   document.getElementById('grpTitle').textContent = 'קבוצת ' + c.group.name;
   const main = document.getElementById('grpMain'), add = document.getElementById('grpAdd'), crop = document.getElementById('cropBox');
   if (c.state.stage === 'photos') {
     const editable = !c.group.ready, need = requiredFor(c.state, { ...c.group, id: c.uid }, c.players.length), cap = maxFor(c.state, need), missing = need - c.players.length;
-    const members = c.players.map(p => `<div class="member"><img src="${esc(p.eyes)}" alt="העיניים של ${esc(p.name)}"><div><strong>${esc(p.name)}</strong>${editable ? ` <button class="game-btn" type="button" onclick="window.removeMember('${esc(p.id)}')">מחיקה</button>` : ''}</div></div>`).join('');
+    const members = c.players.map(p => `<div class="member"><img src="${esc(p.eyes)}" alt="העיניים של ${esc(p.name)}"><div><strong>${esc(p.name)}</strong>${editable ? ` <button class="game-btn" type="button" onclick="window.renameMember('${esc(p.id)}')">✏️ שינוי שם</button> <button class="game-btn" type="button" onclick="window.removeMember('${esc(p.id)}')">מחיקה</button>` : ''}</div></div>`).join('');
     if (!c.started && !c.group.ready && !c.players.length) {
       // מסך פתיחה: לפני שמתחילים — כפתור גדול שמציג את סרטון ההסבר
       main.innerHTML = `<div class="now-box" style="text-align:center"><p style="font-size:22px;margin:0 0 6px"><strong>שלום קבוצת ${esc(c.group.name)}! 👋</strong></p><p>הצטרפתם למשחק. לפני שמתחילים — צפו בהסבר קצר על השלב הראשון.</p><button class="buy start-big" type="button" onclick="window.startGroupGame()">▶ התחל</button></div>`;
       add.hidden = true; return;
     }
     if (c.group.ready) {
-      main.innerHTML = nowBox('מה עושים עכשיו?', ['כל המשתתפים הצטלמו.', 'לחצתם ”העלינו ואנחנו מוכנים”.', 'מחכים: כשכל הקבוצות יהיו מוכנות, מנהל המשחק ילחץ ”המשך”. אז יתחיל כאן לבד המשחק, עם שעון עצר.'], 2, `⏱️ כשיתחיל: יהיו לכם כ־${secsText(c.state.eyesPerPair || 30)} לכל זוג עיניים, והשעון רץ למעלה במסך. לא צריך לרענן ולא לסגור את המסך.`) + `<p><strong>✅ העליתם ${c.players.length === 1 ? 'משתתף אחד' : c.players.length + ' משתתפים'}:</strong></p>${members}<button class="game-btn" type="button" onclick="window.setGroupReady(false)">רגע, עוד לא — חזרה לצילום</button>`;
+      main.innerHTML = nowBox('מה עושים עכשיו?', ['כל המשתתפים הצטלמו.', 'לחצתם ”העלינו ואנחנו מוכנים”.', 'מחכים: כשכל הקבוצות יהיו מוכנות, מנהל המשחק ילחץ ”המשך”. אז יתחיל כאן לבד המשחק, עם שעון עצר.'], 2, `⏱️ כשיתחיל: יהיו לכם כ־${secsText(c.state.eyesPerPair || 30)} לכל זוג עיניים, והשעון רץ למעלה במסך. לא צריך לרענן ולא לסגור את המסך.`) + `<p><strong>✅ העליתם ${c.players.length === 1 ? 'משתתף אחד' : c.players.length + ' משתתפים'}:</strong></p>${members}<button class="game-btn" type="button" onclick="window.setGroupReady(false)">רגע, עוד לא — חזרה לצילום (או לתיקון שם)</button>${groupsStatusHtml(c)}`;
       add.hidden = true; crop.innerHTML = ''; pendingFace = null;
     } else {
       // ”העלינו ואנחנו מוכנים” נפתח רק כשהקבוצה העלתה בדיוק את מספר המשתתפים שלה
@@ -1332,7 +1371,7 @@ function renderGroup() {
         ? '<button class="buy" type="button" onclick="window.setGroupReady(true)">העלינו ואנחנו מוכנים ✓</button>'
         : `<button class="buy" type="button" disabled>העלינו ואנחנו מוכנים ✓</button><p class="warn" style="margin:4px 0">צריך עוד ${missing === 1 ? 'משתתף אחד' : missing + ' משתתפים'} כדי להמשיך — הקבוצה שלכם צריכה ${need}.</p>`;
       main.innerHTML = nowBox('מה עושים עכשיו?', ['צופים בסרטון ההסבר.', `כל משתתף בתורו — הקבוצה שלכם צריכה ${need === 1 ? 'משתתף אחד' : need + ' משתתפים'}: כותבים שם מלא — שם פרטי ושם משפחה — ולוחצים ”📸 צילום פנים מקרוב”. מצלמים רק את הפנים, מקרוב — לא את כל הגוף.`, 'בודקים שהעיניים ברורות ולוחצים ”✓ שמירה”. הבא בתור — חוזרים לצעד 2.', `כשכל ה־${need} הצטלמו — לוחצים ”העלינו ואנחנו מוכנים”.`], missing <= 0 ? 3 : c.players.length ? 2 : 1)
-        + `<button class="game-btn" type="button" onclick="openStage(1,true)">▶ צפייה חוזרת בהסבר</button><p><strong>משתתפים בקבוצה: ${c.players.length} מתוך ${need}</strong></p>${members || '<p class="smallnote">עדיין לא הצטלם אף אחד.</p>'}${readyBtn}`;
+        + `<button class="game-btn" type="button" onclick="openStage(1,true)">▶ צפייה חוזרת בהסבר</button><p><strong>משתתפים בקבוצה: ${c.players.length} מתוך ${need}</strong></p>${members || '<p class="smallnote">עדיין לא הצטלם אף אחד.</p>'}${readyBtn}${groupsStatusHtml(c)}`;
       add.hidden = false;
       if (c.players.length >= cap) add.innerHTML = `<p class="smallnote">✅ הקבוצה מלאה — ${cap === 1 ? 'משתתף אחד' : cap + ' משתתפים'}.</p>`;
       else if (!document.getElementById('memberName')) renderAddForm();
@@ -1365,9 +1404,10 @@ function renderGroupEyes(main) {
   const c = groupCtx;
   if (!c.assignment) { main.innerHTML = '<p>מחלקים את העיניים…</p>'; return; }
   const items = c.assignment.items || [], n = items.length;
-  if (c.submitted) {
+  if (c.submitted && !c.editing) {
     main.innerHTML = eyesTimerBar(c.state)
-      + nowBox('מה עושים עכשיו?', ['כתבתם של מי העיניים.', 'לחצתם ”אישור” — התשובות נשלחו ✓', 'מחכים: כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — התוצאות יופיעו כאן לבד.'], 2, 'לא צריך לרענן ולא לסגור את המסך.');
+      + nowBox('מה עושים עכשיו?', ['כתבתם של מי העיניים.', 'לחצתם ”אישור” — התשובות נשלחו ✓', 'מחכים: כשהקבוצה האחרונה מאשרת — או כשהזמן נגמר — התוצאות יופיעו כאן לבד.'], 2, 'לא צריך לרענן ולא לסגור את המסך.')
+      + '<button class="game-btn" type="button" onclick="window.editGuesses()">✏️ רוצים לתקן? עריכת התשובות</button><p class="smallnote">אפשר לתקן עד שכל הקבוצות מאשרות או עד שהזמן נגמר. אחרי תיקון — לוחצים שוב ”אישור”.</p>';
     return;
   }
   if (c.eyesBuilt) return; // לא לבנות מחדש — כדי לא למחוק את מה שהקבוצה כבר כתבה
@@ -1422,14 +1462,25 @@ window.updateGuessButton = function () {
   btn.disabled = empty > 0;
   hint.textContent = empty ? (empty === 1 ? 'נשאר זוג אחד בלי שם.' : `נשארו ${empty} זוגות בלי שם.`) : 'הכול מלא — לוחצים ”אישור”!';
 };
+// עריכה אחרי ”אישור”: חוזרים למסך הבדיקה עם מה שנשלח
+window.editGuesses = function () {
+  const c = groupCtx; if (!c || !c.assignment) return;
+  const saved = Object.fromEntries((c.savedGuesses || []).map(g => [g.pid, g.guess]));
+  c.guesses = c.assignment.items.map(it => ({ pid: it.pid, guess: saved[it.pid] || '' }));
+  c.editing = true; c.review = true; c.eyesBuilt = false; c.autoSent = false;
+  renderGroup();
+};
 window.submitGuesses = async function (auto) {
-  const c = groupCtx; if (!c || c.submitted || !c.guesses) return;
+  const c = groupCtx; if (!c || (c.submitted && !c.editing) || !c.guesses) return;
   const input = document.getElementById('slotGuess'); if (input && !c.review) c.guesses[c.cur].guess = input.value;
   const guesses = c.guesses.map(g => ({ pid: g.pid, guess: g.guess.trim().slice(0, 40) }));
   if (!auto && guesses.some(g => !g.guess)) return;
-  if (!auto && !confirm('לשלוח את התשובות? אחרי האישור אי־אפשר לשנות.')) return;
+  if (!auto && !confirm('לשלוח את התשובות? אפשר לתקן גם אחרי השליחה — עד שכל הקבוצות מאשרות או שהזמן נגמר.')) return;
   const btn = document.getElementById('submitGuesses'); if (btn) btn.disabled = true;
-  try { await setDoc(doc(db, 'familyGames', c.gameId, 'answers', c.uid), { guesses, submittedAt: serverTimestamp() }); }
+  try {
+    await setDoc(doc(db, 'familyGames', c.gameId, 'answers', c.uid), { guesses, submittedAt: serverTimestamp() });
+    if (c.editing) { c.editing = false; c.eyesBuilt = false; renderGroup(); }
+  }
   catch (e) { console.warn(e); const h = document.getElementById('guessHint'); if (h) h.textContent = auto ? 'הזמן נגמר.' : 'השליחה נכשלה — נסו שוב.'; if (btn && !auto) btn.disabled = false; }
 };
 window.startGroupGame = function () {
@@ -1492,6 +1543,17 @@ window.saveMember = async function () {
     console.warn(e);
     document.getElementById('cropBox').innerHTML = '<div class="info"><p class="warn">השמירה נכשלה. ייתכן שכבר נרשמו כל המשתתפים שנרכשו, או שמנהל המשחק כבר לחץ ”המשך”. פנו למנהל המשחק.</p></div>';
   }
+};
+// תיקון שם של משתתף (בלי לצלם מחדש) — עד שמנהל המשחק לוחץ ”המשך”
+window.renameMember = async function (id) {
+  const c = groupCtx, p = c && c.players.find(x => x.id === id); if (!p) return;
+  const name = (prompt('השם המלא הנכון — שם פרטי ושם משפחה:', p.name) || '').trim().replace(/\s+/g, ' ');
+  if (!name || name === p.name) return;
+  if (name.length < 3 || name.length > 40 || !/\S+ \S+/.test(name)) { alert('צריך שם מלא — שם פרטי ושם משפחה.'); return; }
+  const twin = c.players.find(x => x.id !== id && namesMatch(x.name, name) && namesMatch(name, x.name));
+  if (twin) { alert(`כבר יש בקבוצה את ”${twin.name}”. אם זה אדם אחר — הוסיפו כינוי (למשל ”${name} הקטן”).`); return; }
+  try { await updateDoc(doc(db, 'familyGames', c.gameId, 'players', id), { name }); }
+  catch (e) { console.warn(e); alert('שינוי השם נכשל. ייתכן שמנהל המשחק כבר לחץ ”המשך”.'); }
 };
 window.removeMember = async function (id) {
   const c = groupCtx, p = c && c.players.find(x => x.id === id);
