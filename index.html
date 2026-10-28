@@ -129,9 +129,10 @@ footer{background:#14325b;color:white;padding:24px 5%;display:flex;justify-conte
 </div><div class="trust-box">🤝 <strong>קנייה בטוחה:</strong> פרטי הכניסה נשלחים אליכם במייל עד 24 שעות מהתשלום (בדרך כלל הרבה יותר מהר). לא קיבלתם? החזר כספי מלא.<span class="contact-line" data-contact></span></div><div class="info"><form class="fields" id="orderForm" onsubmit="event.preventDefault();submitOrder()">
 <label for="people"><strong>מספר המשתתפים</strong></label><input id="people" type="number" min="10" max="50" step="1" value="50" required oninput="updateGroups()">
 <div class="purchase-summary" id="groupSummary">50 משתתפים</div>
-<div class="purchase-summary" id="phoneSummary" style="background:#dceefa">📱 חובה טלפון אחד לכל קבוצה</div>
+<div class="purchase-summary" id="phoneSummary" style="background:#dceefa">📱 חובה טלפון אחד לכל קבוצה + מכשיר נוסף למנהל המשחק</div>
 <div class="purchase-summary" id="totalSummary">עלות כוללת: 320 ₪</div>
 <p class="smallnote">חשוב לדעת: בין 10 ל־50 משתתפים. את הקבוצות מחליטים במקום — בכל גודל: אדם אחד, 3, 5, 10 או ערבוב. צריך לפחות 3 קבוצות, ו<strong>לכל קבוצה חובה מכשיר אחד</strong> — מומלץ טלפון (או מחשב נייד עם מצלמה ומיקרופון).</p>
+<p class="smallnote"><strong>🎬 ועוד מכשיר אחד למנהל המשחק</strong> (טלפון, טאבלט או מחשב — לא אחד מהטלפונים של הקבוצות). מנהל המשחק מפעיל את כל הקבוצות: מתחיל כל שלב, קובע כמה זמן יש, יכול לדלג, להוסיף זמן ולהעביר הלאה. כדאי לבחור מישהו שמבין בטלפון, שיהיה עם המכשיר לאורך כל המשחק.</p>
 <label for="gameDate"><strong>תאריך המשחק</strong></label><input id="gameDate" type="date" required oninput="this.setCustomValidity('')">
 <p class="smallnote">המשחק יהיה פתוח רק בתאריך הזה — מ־6:00 בבוקר עד 12 בלילה.</p>
 <label for="buyer"><strong>שם הרוכש/ת</strong></label><input id="buyer" placeholder="שם מלא" required maxlength="60" autocomplete="name">
@@ -277,11 +278,11 @@ function describeGroupSizes(sizes){
 function updateGroups(){
  const people=document.getElementById('people');
  const typed=parseInt(people.value)||0;
- if(typed<10){document.getElementById('groupSummary').textContent='מינימום 10 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה';document.getElementById('totalSummary').textContent='עלות כוללת: 210 ₪ (מחיר מינימום ל־10–20 משתתפים)';return;}
- if(typed>MAX_PARTICIPANTS){document.getElementById('groupSummary').textContent='אפשר להזמין עד 50 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה';document.getElementById('totalSummary').textContent='';return;}
+ if(typed<10){document.getElementById('groupSummary').textContent='מינימום 10 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה + מכשיר נוסף למנהל המשחק';document.getElementById('totalSummary').textContent='עלות כוללת: 210 ₪ (מחיר מינימום ל־10–20 משתתפים)';return;}
+ if(typed>MAX_PARTICIPANTS){document.getElementById('groupSummary').textContent='אפשר להזמין עד 50 משתתפים';document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה + מכשיר נוסף למנהל המשחק';document.getElementById('totalSummary').textContent='';return;}
  const n=typed;
  document.getElementById('groupSummary').textContent=n+' משתתפים · מתחלקים לקבוצות במקום, בכל גודל (לפחות 3 קבוצות)';
- document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה (או מחשב)';
+ document.getElementById('phoneSummary').textContent='📱 חובה טלפון אחד לכל קבוצה + מכשיר נוסף למנהל המשחק';
  const total=getTotalPrice(n),final=finalPrice(n,couponPercent);
  document.getElementById('totalSummary').textContent=couponPercent?`עלות כוללת: ${final.toLocaleString('he-IL')} ₪ (במקום ${total.toLocaleString('he-IL')} ₪ — ${couponPercent}% הנחה)`:'עלות כוללת: '+total.toLocaleString('he-IL')+' ₪';
 }
@@ -580,7 +581,7 @@ function renderManagerGame(game) {
   clearTimeout(expiryTimer);
   const participants = Number(game.purchasedParticipants);
   const date = formatDateHe(game.gameDate);
-  const purchase = `רכשת ${participants} משתתפים. מתחלקים לקבוצות בכל גודל שרוצים (לפחות 3 קבוצות) — כל קבוצה כותבת כמה משתתפים יש בה. 📱 חובה טלפון אחד לכל קבוצה.`;
+  const purchase = `רכשת ${participants} משתתפים. מתחלקים לקבוצות בכל גודל שרוצים (לפחות 3 קבוצות) — כל קבוצה כותבת כמה משתתפים יש בה. 📱 חובה טלפון אחד לכל קבוצה. 🎬 המכשיר הזה הוא של מנהל המשחק — הוא מפעיל את כל הקבוצות, ולכן לא משתמשים בו כטלפון של קבוצה.`;
   const logout = `<button class="game-btn" type="button" onclick="window.firebaseManagerLogout()">יציאה מהחשבון</button>`;
   const title = document.getElementById('gameAccessTitle'), intro = document.getElementById('gameAccessIntro'), box = document.getElementById('gameAccessContent');
   const state = gameWindow(game);
@@ -894,7 +895,7 @@ window.adminApprove = async function (id) {
 // מסך ”שולחים ללקוח את הפרטים” — אחרי אישור תשלום או אחרי סיסמה חדשה
 async function showCred(o, password, title, opening) {
   const credBox = document.getElementById('credBox');
-  const text = `שלום ${o.buyerName}, ${opening}\nפרטי הכניסה למשחק המשפחה:\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nסיסמה: ${password}\n(לכל הזמנה יש סיסמה משלה — שמרו את המייל הזה.)\nהמשחק פתוח ביום ${formatDateHe(o.gameDate)} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`;
+  const text = `שלום ${o.buyerName}, ${opening}\nפרטי הכניסה למשחק המשפחה:\nאתר: ${SITE_URL}\nאימייל: ${o.email}\nסיסמה: ${password}\n(לכל הזמנה יש סיסמה משלה — שמרו את המייל הזה.)\n\n🎬 חשוב: מי שנכנס עם הפרטים האלה הוא מנהל המשחק. הוא מפעיל את כל הקבוצות — מתחיל כל שלב, קובע כמה זמן יש, ויכול לדלג ולהוסיף זמן. צריך לו מכשיר נוסף (לא אחד מהטלפונים של הקבוצות), ושיהיה איתו לאורך כל המשחק. כדאי לבחור מישהו שמבין בטלפון.\n📱 ולכל קבוצה — טלפון אחד משלה.\n\nהמשחק פתוח ביום ${formatDateHe(o.gameDate)} בלבד, מ־6:00 בבוקר עד 12 בלילה.\nשיהיה בהצלחה ושיהיה כיף!`;
   window.lastCredText = text;
   const subject = 'פרטי הכניסה למשחק המשפחה';
   window.lastCred = { to: o.email, subject, text };
@@ -1005,6 +1006,48 @@ function playError(e) {
 }
 
 // --- מנהל המשחק ---
+// ---------- צלילים: בסוף כל שלב (התוצאות) ובהכרזה על המנצחים. נוצרים בדפדפן — בלי קבצים ----------
+let soundCtx = null;
+function audioCtx() {
+  if (!soundCtx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; soundCtx = new AC(); }
+  if (soundCtx.state === 'suspended') soundCtx.resume().catch(() => { });
+  return soundCtx;
+}
+// דפדפנים מאפשרים צליל רק אחרי נגיעה במסך — ”פותחים” את הצליל בנגיעה הראשונה
+['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, () => { try { audioCtx(); } catch (e) { } }, { once: true, capture: true }));
+function playNotes(notes) {
+  const ctx = audioCtx(); if (!ctx) return;
+  const t0 = ctx.currentTime + 0.05;
+  notes.forEach(([freq, start, len, type]) => {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type || 'triangle'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t0 + start);
+    g.gain.exponentialRampToValueAtTime(0.22, t0 + start + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + start + len);
+    o.connect(g); g.connect(ctx.destination); o.start(t0 + start); o.stop(t0 + start + len + 0.05);
+  });
+}
+// ”טה־דה!” קצר בסוף שלב, ותרועה ארוכה להכרזה
+const SOUND_STAGE_END = [[523, 0, .18], [659, .15, .18], [784, .3, .18], [1047, .45, .5]];
+const SOUND_FINALE = [[392, 0, .2, 'square'], [392, .2, .12, 'square'], [392, .34, .12, 'square'], [523, .5, .5, 'square'], [659, 1.05, .2], [784, 1.25, .2], [1047, 1.45, .9], [784, 1.45, .9], [659, 1.45, .9]];
+function stageSound(prev, stage) {
+  if (!prev || prev === stage) return; // רק במעבר אמיתי — לא כשפותחים / מרעננים את הדף
+  try {
+    if (stage === 'final') playNotes(SOUND_FINALE);
+    else if (['eyesDone', 'assocDone', 'whoDone'].includes(stage)) playNotes(SOUND_STAGE_END);
+  } catch (e) { console.warn(e); }
+}
+// מה התפקיד של מנהל המשחק — פתוח בכניסה הראשונה, ואפשר לקפל
+const MANAGER_ROLE_HTML = `<details class="info" style="margin:0 0 12px" ${(() => { try { return localStorage.getItem('familyGame.roleSeen') ? '' : 'open'; } catch (e) { return 'open'; } })()} ontoggle="try{localStorage.setItem('familyGame.roleSeen','1')}catch(e){}">
+  <summary style="cursor:pointer;font-weight:900">🎬 את/ה מנהל/ת המשחק — מה התפקיד? (לחצו לפתיחה / סגירה)</summary>
+  <ul style="margin:8px 0 0;padding-inline-start:20px;line-height:1.7">
+    <li><strong>המכשיר הזה הוא שלט המשחק.</strong> לא משחקים ממנו כקבוצה — לכל קבוצה טלפון משלה.</li>
+    <li><strong>הישארו עם המכשיר כל המשחק.</strong> שום שלב לא מתחיל בלעדיכם: אתם לוחצים ”המשך” / ”התחלה” — והמסכים של כל הקבוצות מתחלפים יחד.</li>
+    <li><strong>אתם קובעים כמה זמן יש</strong> — לפני כל חלק בוחרים זמן (למשל 30 שניות לכל זוג עיניים, 60 שניות לכל תמונה). הקבוצות רואות את הזמן מראש.</li>
+    <li><strong>אפשר לזרז ולדלג:</strong> ”דילוג” לתמונה או לשאלה הבאה, ”➕ עוד 5 דקות” בהקלטות, ומעבר ישר להכרזה על המנצחים.</li>
+    <li><strong>בשלב 2 אתם השופטים:</strong> מקריאים בקול את התשובות ולוחצים ”✗ לא תקין” על תשובה בלי קשר למשפחה.</li>
+    <li>קבוצה תקועה? בודקים שהיא בקוד הנכון ושהאינטרנט עובד (כפתור הבדיקה למטה). רענון לא מוחק כלום.</li>
+  </ul></details>`;
 window.openManagerPlay = async function () {
   const game = currentManagerGame; if (!game) return;
   showPlay('<div class="play-wrap"><p>פותחים את המשחק…</p></div>');
@@ -1035,11 +1078,12 @@ window.openManagerPlay = async function () {
 function startManagerPlay(game) {
   stopPlay();
   managerCtx = { game, state: null, groups: [], players: [], planDoc: null, answers: {}, results: null, plan: null, eyesPerPair: 30, revealing: false, assocAnswers: {}, assocLoaded: false, assoc: null, assocDocLoaded: false, whoPlanDoc: null, whoAnswers: {} };
-  showPlay('<div class="play-wrap"><div class="order-head"><h2>ניהול המשחק</h2><button class="game-btn" type="button" onclick="leavePlay()">← יציאה</button></div><div id="mgrMain"><p>טוענים…</p></div></div>');
+  showPlay('<div class="play-wrap"><div class="order-head"><h2>ניהול המשחק</h2><button class="game-btn" type="button" onclick="leavePlay()">← יציאה</button></div>' + MANAGER_ROLE_HTML + '<div id="mgrMain"><p>טוענים…</p></div></div>');
   const m = managerCtx, r = () => renderManager();
   playUnsubs.push(onSnapshot(liveDoc(game.id, 'state'), s => {
     if (!s.exists() && m.state) { stopPlay(); const el = document.getElementById('mgrMain'); if (el) el.innerHTML = '<div class="now-box"><strong>המשחק הסתיים 👋</strong><p>תוכן המשחק נמחק לשמירה על הפרטיות. תודה ששיחקתם!</p></div>'; return; }
-    m.state = s.data({ serverTimestamps: 'estimate' }); r();
+    const prev = m.state && m.state.stage;
+    m.state = s.data({ serverTimestamps: 'estimate' }); stageSound(prev, m.state.stage); r();
   }, playError));
   playUnsubs.push(onSnapshot(liveDoc(game.id, 'plan'), s => { m.planDoc = s.exists() ? s.data() : null; r(); }, playError));
   playUnsubs.push(onSnapshot(liveDoc(game.id, 'results'), s => { m.results = s.exists() ? s.data() : null; r(); }, playError));
@@ -1324,12 +1368,12 @@ function startGroup(gameId) {
   whoStopAll();
   groupCtx = { gameId, uid, state: null, group: null, players: [], assignment: null, started, submitted: false, results: null, eyesBuilt: false,
     who: { pick: {}, rec: null, pend: null, saving: false, msg: '' }, whoAssign: null, whoUrl: {}, whoLoads: {} };
-  showPlay('<div class="play-wrap"><h2 id="grpTitle">הקבוצה שלנו</h2><div id="grpMain"><p>טוענים…</p></div><div id="grpAdd"></div><div id="cropBox"></div></div>');
+  showPlay('<div class="play-wrap"><h2 id="grpTitle">הקבוצה שלנו</h2><div id="grpMain"><p>טוענים…</p></div><div id="grpAdd"></div><div id="cropBox"></div><div id="grpStatus"></div></div>');
   const c = groupCtx, r = () => renderGroup();
   playUnsubs.push(onSnapshot(liveDoc(gameId, 'state'), s => {
     // המשחק נמחק (יום אחרי המשחק) — מודיעים במקום להיתקע
     if (!s.exists()) { stopPlay(); const el = document.getElementById('grpMain'); if (el) el.innerHTML = '<div class="now-box"><strong>המשחק הסתיים 👋</strong><p>תודה ששיחקתם!</p></div>'; return; }
-    const prev = c.state && c.state.stage; c.state = s.data({ serverTimestamps: 'estimate' }); if (prev !== c.state.stage) c.eyesBuilt = false; r();
+    const prev = c.state && c.state.stage; c.state = s.data({ serverTimestamps: 'estimate' }); if (prev !== c.state.stage) c.eyesBuilt = false; stageSound(prev, c.state.stage); r();
   }, playError));
   playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'answers', uid), s => { const was = c.submitted; c.submitted = s.exists(); c.savedGuesses = s.exists() ? s.data().guesses : null; if (was !== c.submitted) c.eyesBuilt = false; r(); }, playError));
   // כל הקבוצות — כדי שכל קבוצה תראה מי כבר מוכנה (כמו שמנהל המשחק רואה)
@@ -1342,16 +1386,23 @@ function startGroup(gameId) {
   playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'assignments', uid), s => { c.assignment = s.exists() ? s.data() : null; r(); }, playError));
   playUnsubs.push(onSnapshot(doc(db, 'familyGames', gameId, 'whoAssign', uid), s => { c.whoAssign = s.exists() ? s.data() : null; r(); }, () => { }));
 }
-// מצב כל הקבוצות בזמן הצילום: מי כבר מוכנה ומי עוד מצטלמת
+// מצב כל הקבוצות — כמו שמנהל המשחק רואה: בצילום (מי מוכנה), בניחוש העיניים (מי אישרה), בהקלטות (כמה הוקלטו ומי סיימה)
 function groupsStatusHtml(c) {
-  const all = c.allGroups || []; if (all.length < 2) return '';
-  const ready = all.filter(g => g.ready).length;
-  return `<div class="info" style="margin-top:12px"><h3 style="margin:0 0 6px">👥 כל הקבוצות — ${ready} מתוך ${all.length} מוכנות</h3><div class="group-list">`
-    + all.map(g => `<div class="group-item"><span>${esc(g.name)}${g.id === c.uid ? ' (אתם)' : ''}${g.size ? ` · ${g.size === 1 ? 'משתתף אחד' : g.size + ' משתתפים'}` : ''}</span><span class="badge ${g.ready ? 'paid' : 'pending'}">${g.ready ? '✓ מוכנה' : '⏳ עוד מצטלמים'}</span></div>`).join('')
+  const all = c.allGroups || [], st = c.state.stage; if (all.length < 2) return '';
+  const nQ = WHO_SAID_QUESTIONS.length;
+  const row = st === 'photos' ? g => [g.ready, g.ready ? '✓ מוכנה' : '⏳ עוד מצטלמים', g.size ? ` · ${g.size === 1 ? 'משתתף אחד' : g.size + ' משתתפים'}` : '']
+    : st === 'eyes' ? g => [g.eyesDone, g.eyesDone ? '✓ אישרו' : '⏳ עוד מנחשים', '']
+    : st === 'whoRecord' ? g => [g.whoDone, g.whoDone ? '✓ סיימו להקליט' : '⏳ מקליטים', ` · ${(g.whoRecs || []).length} מתוך ${nQ} שאלות`]
+    : null;
+  if (!row) return '';
+  const done = all.filter(g => row(g)[0]).length, what = st === 'photos' ? 'מוכנות' : st === 'eyes' ? 'אישרו' : 'סיימו';
+  return `<div class="info" style="margin-top:12px"><h3 style="margin:0 0 6px">👥 כל הקבוצות — ${done} מתוך ${all.length} ${what}</h3><div class="group-list">`
+    + all.map(g => { const [ok, label, extra] = row(g); return `<div class="group-item"><span>${esc(g.name)}${g.id === c.uid ? ' (אתם)' : ''}${extra}</span><span class="badge ${ok ? 'paid' : 'pending'}">${label}</span></div>`; }).join('')
     + '</div></div>';
 }
 function renderGroup() {
   const c = groupCtx; if (!c || !c.state || !c.group) return;
+  const statusBox = document.getElementById('grpStatus'); if (statusBox) statusBox.innerHTML = groupsStatusHtml(c);
   document.getElementById('grpTitle').textContent = 'קבוצת ' + c.group.name;
   const main = document.getElementById('grpMain'), add = document.getElementById('grpAdd'), crop = document.getElementById('cropBox');
   if (c.state.stage === 'photos') {
@@ -1363,7 +1414,7 @@ function renderGroup() {
       add.hidden = true; return;
     }
     if (c.group.ready) {
-      main.innerHTML = nowBox('מה עושים עכשיו?', ['כל המשתתפים הצטלמו.', 'לחצתם ”העלינו ואנחנו מוכנים”.', 'מחכים: כשכל הקבוצות יהיו מוכנות, מנהל המשחק ילחץ ”המשך”. אז יתחיל כאן לבד המשחק, עם שעון עצר.'], 2, `⏱️ כשיתחיל: יהיו לכם כ־${secsText(c.state.eyesPerPair || 30)} לכל זוג עיניים, והשעון רץ למעלה במסך. לא צריך לרענן ולא לסגור את המסך.`) + `<p><strong>✅ העליתם ${c.players.length === 1 ? 'משתתף אחד' : c.players.length + ' משתתפים'}:</strong></p>${members}<button class="game-btn" type="button" onclick="window.setGroupReady(false)">רגע, עוד לא — חזרה לצילום (או לתיקון שם)</button>${groupsStatusHtml(c)}`;
+      main.innerHTML = nowBox('מה עושים עכשיו?', ['כל המשתתפים הצטלמו.', 'לחצתם ”העלינו ואנחנו מוכנים”.', 'מחכים: כשכל הקבוצות יהיו מוכנות, מנהל המשחק ילחץ ”המשך”. אז יתחיל כאן לבד המשחק, עם שעון עצר.'], 2, `⏱️ כשיתחיל: יהיו לכם כ־${secsText(c.state.eyesPerPair || 30)} לכל זוג עיניים, והשעון רץ למעלה במסך. לא צריך לרענן ולא לסגור את המסך.`) + `<p><strong>✅ העליתם ${c.players.length === 1 ? 'משתתף אחד' : c.players.length + ' משתתפים'}:</strong></p>${members}<button class="game-btn" type="button" onclick="window.setGroupReady(false)">רגע, עוד לא — חזרה לצילום (או לתיקון שם)</button>`;
       add.hidden = true; crop.innerHTML = ''; pendingFace = null;
     } else {
       // ”העלינו ואנחנו מוכנים” נפתח רק כשהקבוצה העלתה בדיוק את מספר המשתתפים שלה
@@ -1371,7 +1422,7 @@ function renderGroup() {
         ? '<button class="buy" type="button" onclick="window.setGroupReady(true)">העלינו ואנחנו מוכנים ✓</button>'
         : `<button class="buy" type="button" disabled>העלינו ואנחנו מוכנים ✓</button><p class="warn" style="margin:4px 0">צריך עוד ${missing === 1 ? 'משתתף אחד' : missing + ' משתתפים'} כדי להמשיך — הקבוצה שלכם צריכה ${need}.</p>`;
       main.innerHTML = nowBox('מה עושים עכשיו?', ['צופים בסרטון ההסבר.', `כל משתתף בתורו — הקבוצה שלכם צריכה ${need === 1 ? 'משתתף אחד' : need + ' משתתפים'}: כותבים שם מלא — שם פרטי ושם משפחה — ולוחצים ”📸 צילום פנים מקרוב”. מצלמים רק את הפנים, מקרוב — לא את כל הגוף.`, 'בודקים שהעיניים ברורות ולוחצים ”✓ שמירה”. הבא בתור — חוזרים לצעד 2.', `כשכל ה־${need} הצטלמו — לוחצים ”העלינו ואנחנו מוכנים”.`], missing <= 0 ? 3 : c.players.length ? 2 : 1)
-        + `<button class="game-btn" type="button" onclick="openStage(1,true)">▶ צפייה חוזרת בהסבר</button><p><strong>משתתפים בקבוצה: ${c.players.length} מתוך ${need}</strong></p>${members || '<p class="smallnote">עדיין לא הצטלם אף אחד.</p>'}${readyBtn}${groupsStatusHtml(c)}`;
+        + `<button class="game-btn" type="button" onclick="openStage(1,true)">▶ צפייה חוזרת בהסבר</button><p><strong>משתתפים בקבוצה: ${c.players.length} מתוך ${need}</strong></p>${members || '<p class="smallnote">עדיין לא הצטלם אף אחד.</p>'}${readyBtn}`;
       add.hidden = false;
       if (c.players.length >= cap) add.innerHTML = `<p class="smallnote">✅ הקבוצה מלאה — ${cap === 1 ? 'משתתף אחד' : cap + ' משתתפים'}.</p>`;
       else if (!document.getElementById('memberName')) renderAddForm();
@@ -1468,6 +1519,7 @@ window.editGuesses = function () {
   const saved = Object.fromEntries((c.savedGuesses || []).map(g => [g.pid, g.guess]));
   c.guesses = c.assignment.items.map(it => ({ pid: it.pid, guess: saved[it.pid] || '' }));
   c.editing = true; c.review = true; c.eyesBuilt = false; c.autoSent = false;
+  updateDoc(doc(db, 'familyGames', c.gameId, 'groups', c.uid), { eyesDone: false }).catch(e => console.warn(e));
   renderGroup();
 };
 window.submitGuesses = async function (auto) {
@@ -1480,6 +1532,8 @@ window.submitGuesses = async function (auto) {
   try {
     await setDoc(doc(db, 'familyGames', c.gameId, 'answers', c.uid), { guesses, submittedAt: serverTimestamp() });
     if (c.editing) { c.editing = false; c.eyesBuilt = false; renderGroup(); }
+    // שאר הקבוצות רואות ”✓ אישרו” (בלי התשובות עצמן)
+    updateDoc(doc(db, 'familyGames', c.gameId, 'groups', c.uid), { eyesDone: true }).catch(e => console.warn(e));
   }
   catch (e) { console.warn(e); const h = document.getElementById('guessHint'); if (h) h.textContent = auto ? 'הזמן נגמר.' : 'השליחה נכשלה — נסו שוב.'; if (btn && !auto) btn.disabled = false; }
 };
