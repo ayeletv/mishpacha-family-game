@@ -353,18 +353,20 @@ function renderManagerLogin(){
 // ---------- שלב 1: חלוקת העיניים ----------
 const EYES_PER_GROUP=15; // עד 15 זוגות לקבוצה — מספיק כדי שיהיה מצחיק, ולא מתיש
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-// כל קבוצה מקבלת עד 15 תמונות עיניים שונות — רק של משתתפים מקבוצות אחרות (אם יש פחות — את כולן).
+// כל קבוצה מקבלת אותו מספר תמונות עיניים (עד 15) — רק של משתתפים מקבוצות אחרות. כך הסיכוי לנקודות שווה לכולם.
+// אם לקבוצה כלשהי יש פחות מ־15 משתתפים בקבוצות האחרות — כולן מקבלות את המספר הקטן הזה.
 // התמונות מתחלקות באופן שוויוני, כך שכל תמונה יוצאת בערך אותו מספר פעמים.
 function assignEyeSets(players,groupIds){
  const used={};players.forEach(p=>used[p.id]=0);
  const sets={},problems=[];
+ const n=Math.min(EYES_PER_GROUP,...groupIds.map(gid=>players.filter(p=>p.groupId!==gid).length));
  for(const gid of shuffle([...groupIds])){
   const pool=shuffle(players.filter(p=>p.groupId!==gid)).sort((a,b)=>used[a.id]-used[b.id]);
-  const pick=pool.slice(0,EYES_PER_GROUP);pick.forEach(p=>used[p.id]++);
+  const pick=pool.slice(0,n);pick.forEach(p=>used[p.id]++);
   sets[gid]=shuffle(pick.map(p=>p.id));
-  if(pick.length<3)problems.push(`לחלק מהקבוצות יש רק ${pick.length} זוגות עיניים לנחש, כי יש מעט משתתפים בקבוצות האחרות.`);
  }
- return {sets,problems:[...new Set(problems)]};
+ if(n<3)problems.push(`כל קבוצה תקבל רק ${n} זוגות עיניים לנחש, כי יש מעט משתתפים בקבוצות האחרות.`);
+ return {sets,problems};
 }
 // ---------- השוואת שמות בלי לדרוש כתיב מושלם ----------
 // ”משה רבנוביץ” = ”משה רבינוביץ”; אבל ”שרה” ≠ ”שירה” (בשמות קצרים דורשים התאמה מלאה)
@@ -398,7 +400,7 @@ function namesMatch(guess,real){
  return G.every((g,i)=>i===firstIdx||R.slice(1).some(r=>tokenMatch(g,r,true))||tokenMatch(g,R[0]));
 }
 // ---------- צילום פנים וחיתוך העיניים ----------
-const EYE_W=480,EYE_H=190;
+const EYE_W=480,EYE_H=190,EYE_MAX_CHARS=60000;
 const MP_URL='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
 const MP_MODEL='https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
 let landmarkerPromise=null;
@@ -761,7 +763,12 @@ async function wipeGameContent(gameId) {
   for (let i = 0; i < refs.length; i += 400) { const b = writeBatch(db); refs.slice(i, i + 400).forEach(r => b.delete(r)); await b.commit(); }
 }
 async function cleanupOldGames() {
-  const games = await getDocs(collection(db, 'familyGames'));
+  // כדי לא לקרוא כל שעה את כל המשחקים שהיו אי־פעם: בודקים רק משחקים מ־60 הימים האחרונים, ופעם בשבוע — את כולם
+  const DAY = 24 * 3600 * 1000;
+  let fullScan = true; try { fullScan = Date.now() - Number(localStorage.getItem('familyGame.fullCleanAt') || 0) > 7 * DAY; } catch (e) { }
+  const games = await getDocs(fullScan ? collection(db, 'familyGames')
+    : query(collection(db, 'familyGames'), where('accessUntil', '>', Timestamp.fromMillis(Date.now() - 60 * DAY))));
+  if (fullScan) try { localStorage.setItem('familyGame.fullCleanAt', String(Date.now())); } catch (e) { }
   // נמחק ידנית לפני סוף יום המשחק (ואולי שיחקו אחר כך)? — מנקים שוב
   const due = games.docs.filter(d => { const g = d.data(); return g.accessUntil && (!g.cleanedAt || g.cleanedAt.toMillis() < g.accessUntil.toMillis()) && g.accessUntil.toMillis() < Date.now() - 24 * 3600 * 1000; });
   for (const g of due) {
@@ -1094,7 +1101,20 @@ function loadWatchdog(ctx, elId) {
 function playError(e) {
   console.warn(e);
   const el = document.getElementById('mgrMain') || document.getElementById('grpMain');
-  if (el) el.innerHTML = '<p class="warn">החיבור למשחק נכשל. ייתכן שיום המשחק הסתיים או שאין חיבור לאינטרנט. רעננו את הדף ונסו שוב.</p>';
+  // resource-exhausted = נגמרה המכסה היומית של Firebase (תוכנית חינמית) — אין טעם לרענן, צריך את בעלת האתר
+  if (el) el.innerHTML = e && e.code === 'resource-exhausted'
+    ? '<p class="warn">המערכת עמוסה כרגע ולא מצליחה לטעון את המשחק. פנו לבעלת האתר — זה מתוקן מצידה, לא מהטלפון.</p>'
+    : '<p class="warn">החיבור למשחק נכשל. ייתכן שיום המשחק הסתיים או שאין חיבור לאינטרנט. רעננו את הדף ונסו שוב.</p>';
+}
+// כשהרבה טלפונים נרשמים באותו רגע (קבוצות מצטרפות, משתתפים מצטלמים), Firebase לפעמים מבקש ”נסו שוב” — מנסים שוב לבד
+async function retryBusy(fn, tries = 5) {
+  for (let i = 1; ; i++) {
+    try { return await fn(); }
+    catch (e) {
+      if (i >= tries || !['aborted', 'failed-precondition', 'unavailable', 'deadline-exceeded'].includes(e.code)) throw e;
+      await new Promise(r => setTimeout(r, 250 + Math.random() * 700 * i));
+    }
+  }
 }
 
 // --- מנהל המשחק ---
@@ -1343,12 +1363,13 @@ function renderManager() {
     <div class="order-actions">${emailButtons('', 'מצטרפים למשחק המשפחה', invite)}<button class="game-btn" type="button" onclick="navigator.clipboard.writeText('${esc(link)}');this.textContent='הועתק ✓'">העתקת הקישור</button></div></div>
     <p><strong>${m.players.length} מתוך ${esc(g.purchasedParticipants)} משתתפים · ${m.groups.length} קבוצות הצטרפו</strong></p><div class="group-list">${rows}</div>${stageHtml}${groupsStatusHtml({ allGroups: m.groups, state: m.state, uid: null })}${box.querySelector('[data-conn]') ? box.querySelector('[data-conn]').outerHTML : `<div data-conn>${CONN_CHECK_HTML}</div>`}`;
 }
-// רשומה ב־Firebase מוגבלת ל־1MB: אם התמונות של קבוצה כבדות במיוחד, מורידים זוגות מהסוף (וגם מהחלוקה, כדי שהבדיקה תתאים)
-function fitEyeItems(sets, gid, byId) {
-  const items = (sets[gid] || []).map(pid => ({ pid, eyes: byId[pid].eyes }));
-  while (items.length > 1 && items.reduce((s, it) => s + it.eyes.length + 40, 0) > 950000) items.pop();
-  sets[gid] = items.map(it => it.pid);
-  return items;
+// רשומה ב־Firebase מוגבלת ל־1MB. כל תמונה מוקטנת כבר בצילום, אז 15 נכנסות תמיד.
+// רשת ביטחון: אם בכל זאת קבוצה לא נכנסת — מורידים לכל הקבוצות לאותו מספר (וגם מהחלוקה, כדי שהבדיקה תתאים)
+function fitEyeSets(sets, byId) {
+  const fits = n => Object.values(sets).every(ids => ids.slice(0, n).reduce((s, pid) => s + byId[pid].eyes.length + 40, 0) <= 950000);
+  let n = Math.max(0, ...Object.values(sets).map(ids => ids.length));
+  while (n > 1 && !fits(n)) n--;
+  Object.keys(sets).forEach(gid => { sets[gid] = sets[gid].slice(0, n); });
 }
 window.managerStartEyes = async function () {
   const m = managerCtx; if (!m || !m.plan) return;
@@ -1357,12 +1378,13 @@ window.managerStartEyes = async function () {
   const byId = Object.fromEntries(m.players.map(p => [p.id, p]));
   // החלוקה נקבעת עכשיו פעם אחת — גם אם המסך מתרענן באמצע השליחה, נשלחת בדיוק אותה חלוקה
   const sets = { ...m.plan.sets }, groups = m.groups.slice();
+  fitEyeSets(sets, byId);
   try {
     // לקבוצות נשלחות רק התמונות — בלי השמות. השמות הנכונים נשמרים אצל מנהל המשחק בלבד, כדי שאי־אפשר יהיה לרמות
     // 3 קבוצות בכל שליחה: כל קבוצה מקבלת עד 15 תמונות (עד כ־1MB), ולשליחה אחת יש תקרה
     for (let i = 0; i < groups.length; i += 3) {
       const batch = writeBatch(db);
-      groups.slice(i, i + 3).forEach(gr => batch.set(doc(db, 'familyGames', m.game.id, 'assignments', gr.id), { items: fitEyeItems(sets, gr.id, byId), createdAt: serverTimestamp() }));
+      groups.slice(i, i + 3).forEach(gr => batch.set(doc(db, 'familyGames', m.game.id, 'assignments', gr.id), { items: (sets[gr.id] || []).map(pid => ({ pid, eyes: byId[pid].eyes })), createdAt: serverTimestamp() }));
       await batch.commit();
     }
     const batch = writeBatch(db);
@@ -1450,12 +1472,12 @@ window.joinGame = async function () {
       const all = await getDocs(collection(db, 'familyGames', gameId, 'groups'));
       if (all.docs.some(d => String(d.data().name).trim().toLowerCase() === name.toLowerCase())) { msg.textContent = 'כבר יש קבוצה בשם הזה. בחרו שם אחר.'; btn.disabled = false; return; }
       // המונה מבטיח שאי־אפשר לפתוח יותר קבוצות ממה שנרכש — גם אם כמה קבוצות מצטרפות באותו רגע
-      await runTransaction(db, async tx => {
+      await retryBusy(() => runTransaction(db, async tx => {
         const counter = await tx.get(liveDoc(gameId, 'groupCount'));
         const count = counter.data().count + 1;
         tx.set(doc(db, 'familyGames', gameId, 'groups', uid), { name, size, index: count, ready: false, createdAt: serverTimestamp() });
         tx.update(liveDoc(gameId, 'groupCount'), { count });
-      });
+      }));
     }
     try { localStorage.setItem(GROUP_KEY, gameId); } catch (e) { }
     startGroup(gameId);
@@ -1698,7 +1720,9 @@ window.handleFacePhoto = async function (input) {
   box.innerHTML = `<div class="info"><p class="warn">${FACE_ERRORS[result.error]}</p><div class="order-actions"><button class="buy" type="button" onclick="document.getElementById('faceInput').click()">📸 צילום מחדש</button><button class="game-btn" type="button" onclick="window.manualCrop()">✋ סימון העיניים ידנית</button></div></div>`;
 };
 function showCropPreview(canvas) {
-  pendingFace.dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+  // כל תמונת עיניים עד EYE_MAX_CHARS — כך 15 תמונות תמיד נכנסות ברשומה אחת, וכל הקבוצות מקבלות אותו מספר
+  let q = 0.82; pendingFace.dataUrl = canvas.toDataURL('image/jpeg', q);
+  while (pendingFace.dataUrl.length > EYE_MAX_CHARS && q > 0.3) { q -= 0.08; pendingFace.dataUrl = canvas.toDataURL('image/jpeg', q); }
   document.getElementById('cropBox').innerHTML = `<div class="info"><p><strong>ככה ייראו העיניים של ${esc(pendingFace.name)} — ברור?</strong></p><img class="eyes-preview" src="${pendingFace.dataUrl}" alt="העיניים שנחתכו"><div class="order-actions"><button class="buy" type="button" id="saveMemberBtn" onclick="window.saveMember()">✓ שמירה</button><button class="game-btn" type="button" onclick="document.getElementById('faceInput').click()">📸 צילום מחדש</button><button class="game-btn" type="button" onclick="window.manualCrop()">✋ כוונון ידני</button></div></div>`;
 }
 window.manualCrop = function () {
@@ -1717,11 +1741,11 @@ window.saveMember = async function () {
   document.getElementById('saveMemberBtn').disabled = true;
   try {
     // המונה מבטיח שאי־אפשר לרשום יותר משתתפים ממה שנרכש
-    await runTransaction(db, async tx => {
+    await retryBusy(() => runTransaction(db, async tx => {
       const counter = await tx.get(liveDoc(c.gameId, 'playerCount'));
       tx.set(doc(db, 'familyGames', c.gameId, 'players', slot), { groupId: c.uid, name: p.name, eyes: p.dataUrl, createdAt: serverTimestamp() });
       tx.update(liveDoc(c.gameId, 'playerCount'), { count: counter.data().count + 1, lastPlayer: slot });
-    });
+    }));
     URL.revokeObjectURL(p.img.src); pendingFace = null;
     document.getElementById('cropBox').innerHTML = ''; renderAddForm();
   } catch (e) {
@@ -1744,11 +1768,11 @@ window.removeMember = async function (id) {
   const c = groupCtx, p = c && c.players.find(x => x.id === id);
   if (!p || !confirm(`למחוק את ${p.name}?`)) return;
   try {
-    await runTransaction(db, async tx => {
+    await retryBusy(() => runTransaction(db, async tx => {
       const counter = await tx.get(liveDoc(c.gameId, 'playerCount'));
       tx.delete(doc(db, 'familyGames', c.gameId, 'players', id));
       tx.update(liveDoc(c.gameId, 'playerCount'), { count: counter.data().count - 1, lastPlayer: id });
-    });
+    }));
   } catch (e) { console.warn(e); alert('המחיקה נכשלה. נסו שוב.'); }
 };
 window.setGroupReady = async function (ready) {
@@ -2053,20 +2077,26 @@ function whoProblem(recs) {
   const n = new Set(recs.map(r => r.gid)).size;
   return n < 2 ? `כדי לנחש צריך הקלטות מלפחות 2 קבוצות (כרגע: ${n === 1 ? 'רק מקבוצה אחת' : 'אין הקלטות'}).` : '';
 }
-// בחירה וחלוקה: לכל שאלה עד 6 הקלטות ממשתתפים שונים — מפוזר בין הקבוצות, וכל משתתף בערך אותו מספר פעמים.
-// כל קבוצה מקבלת את ההקלטות שנבחרו לשאלה — חוץ משלה. שאלה שאף קבוצה לא מקבלת בה כלום — מדלגים עליה.
+// בחירה וחלוקה: בכל שאלה כל קבוצה מקבלת אותו מספר הקלטות (עד WHO_PER_Q) — רק מקבוצות אחרות, אף פעם לא משלה.
+// כל קבוצה מקבלת בחירה משלה, מפוזרת בין הקבוצות, וכל משתתף נשמע בערך אותו מספר פעמים.
+// אם לקבוצה כלשהי יש פחות הקלטות של אחרים בשאלה — כולן מקבלות את המספר הקטן הזה. שאלה שיוצא בה 0 — מדלגים עליה.
 function whoBuildPlan(m) {
-  const recs = whoRecList(m), used = {}, sets = Object.fromEntries(m.groups.map(gr => [gr.id, []])), key = {}, questions = [];
+  const recs = whoRecList(m), used = {}, sets = Object.fromEntries(m.groups.map(gr => [gr.id, []])), key = {}, questions = [], pitch = {};
+  const pitchOf = rid => pitch[rid] || (pitch[rid] = Math.random() < 0.5 ? Math.round((1.3 + Math.random() * 0.15) * 100) / 100 : Math.round((0.72 + Math.random() * 0.08) * 100) / 100);
   WHO_SAID_QUESTIONS.forEach((_, q) => {
-    const cands = shuffle(recs.filter(r => r.q === q)), perGroup = {}, sel = [];
-    while (sel.length < WHO_PER_Q && cands.length) {
-      cands.sort((a, b) => (perGroup[a.gid] || 0) - (perGroup[b.gid] || 0) || (used[a.pid] || 0) - (used[b.pid] || 0));
-      const r = cands.shift(); sel.push(r); used[r.pid] = (used[r.pid] || 0) + 1; perGroup[r.gid] = (perGroup[r.gid] || 0) + 1;
-    }
-    let any = false;
-    sel.forEach(r => { key[r.rid] = r.name; r.pitch = Math.random() < 0.5 ? Math.round((1.3 + Math.random() * 0.15) * 100) / 100 : Math.round((0.72 + Math.random() * 0.08) * 100) / 100; });
-    m.groups.forEach(gr => { const mine = shuffle(sel.filter(r => r.gid !== gr.id)).map(r => ({ rid: r.rid, q, pitch: r.pitch })); if (mine.length) any = true; sets[gr.id].push(...mine); });
-    if (any) questions.push(q);
+    const all = recs.filter(r => r.q === q);
+    const n = Math.min(WHO_PER_Q, ...m.groups.map(gr => all.filter(r => r.gid !== gr.id).length));
+    if (!m.groups.length || n < 1) return;
+    shuffle(m.groups.slice()).forEach(gr => {
+      const cands = shuffle(all.filter(r => r.gid !== gr.id)), perGroup = {}, sel = [];
+      while (sel.length < n) {
+        cands.sort((a, b) => (perGroup[a.gid] || 0) - (perGroup[b.gid] || 0) || (used[a.pid] || 0) - (used[b.pid] || 0));
+        const r = cands.shift(); sel.push(r); used[r.pid] = (used[r.pid] || 0) + 1; perGroup[r.gid] = (perGroup[r.gid] || 0) + 1;
+      }
+      sel.forEach(r => { key[r.rid] = r.name; });
+      sets[gr.id].push(...shuffle(sel).map(r => ({ rid: r.rid, q, pitch: pitchOf(r.rid) })));
+    });
+    questions.push(q);
   });
   return { sets, key, questions, problem: whoProblem(recs) };
 }
